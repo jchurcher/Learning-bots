@@ -9,7 +9,7 @@ public class SpawnObstacles : MonoBehaviour
     public Vector3 center;
     public Vector3 size;
 
-    private int frameCount = 0;
+    //private int frameCount = 0;
 
     // Start is called before the first frame update
     void Start()
@@ -46,9 +46,9 @@ public class SpawnObstacles : MonoBehaviour
         GameObject newObject = Instantiate(ObjectPrefab, pos, Quaternion.identity);
 
     }
-    private void OnDrawGizmosSelected()
+    /*private void OnDrawGizmosSelected()
     {
         Gizmos.color = new Color(1, 0, 0, 0.5f);
         Gizmos.DrawCube(center, size);
-    }
+    }*/
 }

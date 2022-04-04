@@ -16,7 +16,12 @@ public class BasicTurningController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        //print(BotObject);
+
         List<RaycastHit2D> rays = BotObject.getRayCasts();
+
+        //print(rays);
+        //print(rays[0].distance);
 
         float leftDist = rays[0].distance;
         float rightDist = rays[1].distance;
@@ -30,7 +35,7 @@ public class BasicTurningController : MonoBehaviour
         forward = 1;
         angle = 0;
 
-        print((leftDist, rightDist));
+        //print((leftDist, rightDist));
 
         if (!(leftDist == Mathf.Infinity && rightDist == Mathf.Infinity))
         {
