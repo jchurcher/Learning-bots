@@ -230,6 +230,7 @@ MonoBehaviour:
   shapeDims: {x: 4, y: 4}
   numSpawns: 100
   radius: 5
+  spawnAttempts: 100
 --- !u!4 &298582841 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8281752256333651931, guid: d13c0e8155ddaf8439d32bf8d62ee27d,
@@ -246,7 +247,7 @@ PrefabInstance:
     - target: {fileID: 614771196801648209, guid: bfa8d74151d160241a3afe08dfb08bf4,
         type: 3}
       propertyPath: m_RootOrder
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 614771196801648209, guid: bfa8d74151d160241a3afe08dfb08bf4,
         type: 3}
@@ -830,7 +831,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &1374794801 stripped
 Transform:
@@ -1398,7 +1399,7 @@ PrefabInstance:
     - target: {fileID: 3062807692323704262, guid: 6b9c9a75d6459e34db2b2536ef953850,
         type: 3}
       propertyPath: m_RootOrder
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 3062807692323704262, guid: 6b9c9a75d6459e34db2b2536ef953850,
         type: 3}

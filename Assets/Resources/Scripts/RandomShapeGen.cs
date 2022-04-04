@@ -16,6 +16,8 @@ public class RandomShapeGen : MonoBehaviour
     public int numSpawns = 100;
     public float radius = 2.0f;
 
+    public int spawnAttempts = 100;
+
     struct Point
     {
         public int x, y;
@@ -71,10 +73,19 @@ public class RandomShapeGen : MonoBehaviour
         return newShape;
     }*/
 
+    private void randomCoord(out float x, out float y)
+    {
+        x = (Mathf.Round(Random.Range(spawnCenter.x - spawnSize.x / 2, spawnCenter.x + spawnSize.x / 2) / 2) * 2);
+        y = (Mathf.Round(Random.Range(spawnCenter.y - spawnSize.y / 2, spawnCenter.y + spawnSize.y / 2) / 2) * 2);
+    }
+
     public void spawnObstacle(Object obj)
     {
-        float x = spawnCenter[0] - spawnSize[0] / 2 + (Mathf.Round(Random.Range(0, spawnSize.x) / 2) * 2);
-        float y = spawnCenter[0] - spawnSize[0] / 2 + (Mathf.Round(Random.Range(0, spawnSize.y) / 2) * 2);
+        //float x = spawnCenter[0] - spawnSize[0] / 2 + (Mathf.Round(Random.Range(0, spawnSize.x) / 2) * 2);
+        //float y = spawnCenter[0] - spawnSize[0] / 2 + (Mathf.Round(Random.Range(0, spawnSize.y) / 2) * 2);
+
+        float x, y;
+        randomCoord(out x, out y);
 
         Collider2D[] results = Physics2D.OverlapCircleAll(new Vector2(x, y), this.radius);
         print("res: " + results.Length.ToString());
@@ -82,7 +93,7 @@ public class RandomShapeGen : MonoBehaviour
         bool flag = true;
 
         // Loop finding a free space for object
-        for(int i=0; i<100; i++)
+        for(int i=0; i<spawnAttempts; i++)
         {
             if (results.Length == 0)
             {
@@ -94,7 +105,7 @@ public class RandomShapeGen : MonoBehaviour
             {
                 if (j )
             }*/
-            
+
             /*foreach (Collider2D colider in results)
             {
                 if (LayerMask.LayerToName(colider.gameObject.layer) == "Wall")
@@ -105,8 +116,7 @@ public class RandomShapeGen : MonoBehaviour
                 }
             }*/
 
-            x = spawnCenter[0] - spawnSize[0] / 2 + (Mathf.Round(Random.Range(0, spawnSize.x) / 2) * 2);
-            y = spawnCenter[0] - spawnSize[0] / 2 + (Mathf.Round(Random.Range(0, spawnSize.y) / 2) * 2);
+            randomCoord(out x, out y);
             results = Physics2D.OverlapCircleAll(new Vector2(x, y), this.radius);
         }
 
