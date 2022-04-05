@@ -34,20 +34,27 @@ public class RandomShapeGen : MonoBehaviour
     {
         Object[] prefabs = Resources.LoadAll("Assets/Blocks", typeof(Object));
 
+        // Loop spawning objects
         for (int i=0; i<numSpawns; i++)
         {
-            int index = Random.Range(0, prefabs.Length);
+            int index = Random.Range(0, prefabs.Length);    // Pick random block shape
             Object block = prefabs[index];
 
-            spawnObstacle(block);
+            spawnObstacle(block, this.radius);
         }
 
-        /*GameObject[] obstacleParents = GameObject.FindGameObjectsWithTag("Block");
-
-        foreach(GameObject block in obstacleParents)
+        // Remove any objects withing radius of spawn center
+        Collider2D[] results = Physics2D.OverlapCircleAll(new Vector2(spawnCenter.x, spawnCenter.y), 5);
+        foreach (Collider2D obj in results)
         {
-            block.GetComponentsInChildren(typeof(Transform));
-        }*/
+            if (obj.CompareTag("Wall")) // Destroy any objects tagged as a wall
+            {
+                Destroy(obj.gameObject);
+            }
+        }
+        
+        // Spawn target object
+        spawnTarget();
     }
 
     // Update is called once per frame
@@ -73,68 +80,91 @@ public class RandomShapeGen : MonoBehaviour
         return newShape;
     }*/
 
+    /// <summary>
+    /// Generate a random x and y coordinate that is bound by the specified spawn area
+    /// </summary>
+    /// <param name="x"></param>
+    /// <param name="y"></param>
     private void randomCoord(out float x, out float y)
     {
-        x = (Mathf.Round(Random.Range(spawnCenter.x - spawnSize.x / 2, spawnCenter.x + spawnSize.x / 2) / 2) * 2);
-        y = (Mathf.Round(Random.Range(spawnCenter.y - spawnSize.y / 2, spawnCenter.y + spawnSize.y / 2) / 2) * 2);
+        x = Mathf.Round(Random.Range(spawnCenter.x - spawnSize.x / 2, spawnCenter.x + spawnSize.x / 2) / 2) * 2;
+        y = Mathf.Round(Random.Range(spawnCenter.y - spawnSize.y / 2, spawnCenter.y + spawnSize.y / 2) / 2) * 2;
     }
 
-    public void spawnObstacle(Object obj)
+    /// <summary>
+    /// Generate x and y coords randomly at a given radius from the spawn center
+    /// </summary>
+    /// <param name="x"></param>
+    /// <param name="y"></param>
+    /// <param name="radius">Radius from center to find coords for</param>
+    private void randomCoordAboutCenter(out float x, out float y, float radius)
     {
-        //float x = spawnCenter[0] - spawnSize[0] / 2 + (Mathf.Round(Random.Range(0, spawnSize.x) / 2) * 2);
-        //float y = spawnCenter[0] - spawnSize[0] / 2 + (Mathf.Round(Random.Range(0, spawnSize.y) / 2) * 2);
+        float angle = Random.Range(0, 360);
+        x = Mathf.Round((Mathf.Sin(angle) * radius + spawnCenter.x) / 2) * 2 + 1;
+        y = Mathf.Round((Mathf.Cos(angle) * radius + spawnCenter.y) / 2) * 2 + 1;
+    }
 
+    /// <summary>
+    /// Spawn the passed object in the scene, first checking if it overlaps any other objects 
+    /// within a given radius
+    /// </summary>
+    /// <param name="obj">Object to be spawned</param>
+    public void spawnObstacle(Object obj, float radius)
+    {
         float x, y;
         randomCoord(out x, out y);
-
-        Collider2D[] results = Physics2D.OverlapCircleAll(new Vector2(x, y), this.radius);
-        print("res: " + results.Length.ToString());
+        Collider2D[] results;
 
         bool flag = true;
 
         // Loop finding a free space for object
         for(int i=0; i<spawnAttempts; i++)
         {
+            //Check if overlapping occurs within radius
+            results = Physics2D.OverlapCircleAll(new Vector2(x, y), radius);
+
+            // If no overlapping break
             if (results.Length == 0)
             {
                 flag = false;
                 break;
             }
 
-            /*foreach(Collider2D j in results)
-            {
-                if (j )
-            }*/
-
-            /*foreach (Collider2D colider in results)
-            {
-                if (LayerMask.LayerToName(colider.gameObject.layer) == "Wall")
-                {
-                    x = spawnCenter[0] - spawnSize[0] / 2 + (Mathf.Round(Random.Range(0, spawnSize.x) / 2) * 2);
-                    y = spawnCenter[0] - spawnSize[0] / 2 + (Mathf.Round(Random.Range(0, spawnSize.y) / 2) * 2);
-                    results = Physics2D.OverlapCircleAll(new Vector2(x, y), this.radius);
-                }
-            }*/
-
-            randomCoord(out x, out y);
-            results = Physics2D.OverlapCircleAll(new Vector2(x, y), this.radius);
+            randomCoord(out x, out y);  //Generate random coord
         }
-
-        print("flag: " + flag);
 
         if (flag)   // If no free space was found, dont spawn
         {
             return;
         }
 
-        //print((x, y));
-
-        //Vector3 location = spawnCenter - spawnSize/2 + new Vector3(x, y, 0);
-        Vector3 location = new Vector3(x, y, 0);
-        Quaternion rotation = Quaternion.Euler(new Vector3(0, 0, Random.Range(0,4) * 90));
+        Vector3 location = new(x, y, 0);
+        Quaternion rotation = Quaternion.Euler(new Vector3(0, 0, Random.Range(0,4) * 90));  //Random rotation
 
         Object newObject = Instantiate(obj, location, rotation);
 
+    }
+
+    public void spawnTarget()
+    {
+        float x, y;
+        randomCoordAboutCenter(out x, out y, Mathf.Min(spawnSize.x, spawnSize.y)*0.4f);
+
+        Object targetPrefab = Resources.Load("Assets/Target");
+        print(targetPrefab);
+
+        // Remove any objects withing radius of spawn center
+        Collider2D[] results = Physics2D.OverlapCircleAll(new Vector2(x, y), 4);
+        foreach (Collider2D obj in results)
+        {
+            if (obj.CompareTag("Wall")) // Destroy any objects tagged as a wall
+            {
+                Destroy(obj.gameObject);
+            }
+        }
+
+        print("x: " + x.ToString() + " y: " + y.ToString());
+        Object newObject = Instantiate(targetPrefab, new Vector3(x, y, 0), Quaternion.identity);
     }
 
     private void OnDrawGizmosSelected()
@@ -142,6 +172,6 @@ public class RandomShapeGen : MonoBehaviour
         Gizmos.color = new Color(1, 0, 0, 0.5f);
         Gizmos.DrawCube(spawnCenter, spawnSize);
 
-        Gizmos.DrawSphere(new Vector3(0,0,0), this.radius);
+        Gizmos.DrawSphere(new Vector3(0,0,0), this.radius * 2);
     }
 }

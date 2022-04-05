@@ -247,7 +247,7 @@ PrefabInstance:
     - target: {fileID: 614771196801648209, guid: bfa8d74151d160241a3afe08dfb08bf4,
         type: 3}
       propertyPath: m_RootOrder
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 614771196801648209, guid: bfa8d74151d160241a3afe08dfb08bf4,
         type: 3}
@@ -673,9 +673,9 @@ LineRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Positions:
-  - {x: -4.7813973, y: 3.9883235, z: 0}
-  - {x: 0.020896137, y: 1.3676791, z: 1}
-  - {x: 4.460178, y: 3.8118691, z: 1.5502319}
+  - {x: -5, y: 4, z: 1}
+  - {x: 0, y: 2, z: 1}
+  - {x: 5, y: 4, z: 1}
   m_Parameters:
     serializedVersion: 3
     widthMultiplier: 1
@@ -831,7 +831,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &1374794801 stripped
 Transform:
