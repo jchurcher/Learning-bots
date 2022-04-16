@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 
-public class RandomShapeGen : MonoBehaviour
+public class RandomSpawner : MonoBehaviour
 {
     public List<GameObject> blockPrefabs;
     public GameObject wall;

@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SpawnObstacles : MonoBehaviour
+public class PressSpawnObstacles : MonoBehaviour
 {
     public GameObject ObjectPrefab;
 
