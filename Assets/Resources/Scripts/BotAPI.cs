@@ -40,9 +40,12 @@ public class BotAPI : MonoBehaviour
         rays = rayCaster.CastRays(visionAngleOffset, body.rotation, body.position);
         rayCaster.DrawRays();
 
-        //print((rays[0].distance, rays[1].distance));
+        print((rays[0].distance, rays[1].distance));
+
+
+
         //Collider[] results = Physics.OverlapSphere(transform.position, 3.0f);
-        Collider2D[] results = Physics2D.OverlapCircleAll(transform.position, 5.0f);
+        //Collider2D[] results = Physics2D.OverlapCircleAll(transform.position, 5.0f);
         //print(results.Length);
     }
 

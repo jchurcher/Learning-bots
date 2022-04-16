@@ -54,7 +54,7 @@ public class RandomShapeGen : MonoBehaviour
         }
         
         // Spawn target object
-        spawnTarget();
+        spawnTarget(Mathf.Min(spawnSize.x, spawnSize.y) * 0.4f);
     }
 
     // Update is called once per frame
@@ -62,23 +62,6 @@ public class RandomShapeGen : MonoBehaviour
     {
         
     }
-
-    /*int[,] GenerateShape(Vector2Int dims, int numTurns)
-    {
-        int width = dims[0]; int height = dims[1];
-
-        int[,] newShape = new int[width, height];
-
-        Point pos = new(Random.Range(0, width), 0);
-        newShape[pos.x, pos.y] = 1;
-
-        for(int i=0; i < numTurns; i++)
-        {
-
-        }
-
-        return newShape;
-    }*/
 
     /// <summary>
     /// Generate a random x and y coordinate that is bound by the specified spawn area
@@ -145,10 +128,14 @@ public class RandomShapeGen : MonoBehaviour
 
     }
 
-    public void spawnTarget()
+    /// <summary>
+    /// Spawn target prefab within radius around spawn center
+    /// </summary>
+    /// <param name="spawnRadius">Distance from center to spawn the target</param>
+    public void spawnTarget(float spawnRadius)
     {
         float x, y;
-        randomCoordAboutCenter(out x, out y, Mathf.Min(spawnSize.x, spawnSize.y)*0.4f);
+        randomCoordAboutCenter(out x, out y, spawnRadius);
 
         Object targetPrefab = Resources.Load("Assets/Target");
         print(targetPrefab);
