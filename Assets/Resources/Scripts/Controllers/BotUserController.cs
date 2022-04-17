@@ -46,5 +46,7 @@ public class BotUserController : MonoBehaviour
         yAxis = 1;*/
 
         body.velocity = new Vector2(xAxis, yAxis);
+
+        print(("velocity: ", body.velocity, body.angularVelocity));
     }
 }

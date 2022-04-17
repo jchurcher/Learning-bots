@@ -6,7 +6,7 @@ public class RayCaster : MonoBehaviour
 {
     RaycastHit2D hit1, hit2;
     Vector2 origin, direction1, direction2;
-    float distance = 5;
+    public float distance = 5;
 
     /// <summary>
     /// Cast two rays at an angle from a given position and rotation

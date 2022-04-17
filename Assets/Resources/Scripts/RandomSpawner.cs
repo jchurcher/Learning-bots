@@ -6,7 +6,7 @@ using UnityEngine;
 public class RandomSpawner : MonoBehaviour
 {
     public List<GameObject> blockPrefabs;
-    public GameObject wall;
+    public MoveToGoalAgent agent;
 
     public Vector3 spawnCenter = new(0, 0, 0);
     public Vector3 spawnSize = new(100, 100, 0);
@@ -28,14 +28,12 @@ public class RandomSpawner : MonoBehaviour
         }
     }
 
-
-    // Start is called before the first frame update
-    void Start()
+    public GameObject beginSpawner()
     {
         Object[] prefabs = Resources.LoadAll("Assets/Blocks", typeof(Object));
 
         // Loop spawning objects
-        for (int i=0; i<numSpawns; i++)
+        for (int i = 0; i < numSpawns; i++)
         {
             int index = Random.Range(0, prefabs.Length);    // Pick random block shape
             Object block = prefabs[index];
@@ -52,15 +50,26 @@ public class RandomSpawner : MonoBehaviour
                 Destroy(obj.gameObject);
             }
         }
-        
+
         // Spawn target object
-        spawnTarget(Mathf.Min(spawnSize.x, spawnSize.y) * 0.4f);
+        GameObject target = (GameObject)spawnTarget(Mathf.Min(spawnSize.x, spawnSize.y) * 0.4f);
+        return target;
     }
 
-    // Update is called once per frame
-    void Update()
+    public void resetSpawner()
     {
-        
+        // Find Walls
+        GameObject[] walls = GameObject.FindGameObjectsWithTag("Wall");
+
+        for (var i = 0; i < walls.Length; i++)
+            Destroy(walls[i]);
+
+
+        // Find Target
+        GameObject[] target = GameObject.FindGameObjectsWithTag("Target");
+
+        for (var i = 0; i < target.Length; i++)
+            Destroy(target[i]);
     }
 
     /// <summary>
@@ -132,13 +141,12 @@ public class RandomSpawner : MonoBehaviour
     /// Spawn target prefab within radius around spawn center
     /// </summary>
     /// <param name="spawnRadius">Distance from center to spawn the target</param>
-    public void spawnTarget(float spawnRadius)
+    public Object spawnTarget(float spawnRadius)
     {
         float x, y;
         randomCoordAboutCenter(out x, out y, spawnRadius);
 
         Object targetPrefab = Resources.Load("Assets/Target");
-        print(targetPrefab);
 
         // Remove any objects withing radius of spawn center
         Collider2D[] results = Physics2D.OverlapCircleAll(new Vector2(x, y), 4);
@@ -150,8 +158,9 @@ public class RandomSpawner : MonoBehaviour
             }
         }
 
-        print("x: " + x.ToString() + " y: " + y.ToString());
-        Object newObject = Instantiate(targetPrefab, new Vector3(x, y, 0), Quaternion.identity);
+        //print("x: " + x.ToString() + " y: " + y.ToString());
+        Object newTargetObject = Instantiate(targetPrefab, new Vector3(x, y, 0), Quaternion.identity);
+        return newTargetObject;
     }
 
     private void OnDrawGizmosSelected()

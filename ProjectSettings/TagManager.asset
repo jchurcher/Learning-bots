@@ -6,6 +6,8 @@ TagManager:
   tags:
   - Block
   - Wall
+  - Target
+  - Boundary
   layers:
   - Default
   - TransparentFX

@@ -6,15 +6,16 @@ public class BotAPI : MonoBehaviour
 {
     public Rigidbody2D body;
     public RayCaster rayCaster;
+    public MoveToGoalAgent agent;
 
     float forwardVel;
     float adjacentVel;
     float angularVel;
 
-    public float maxVel = 5.0f;
-    public float maxAngularVel = 160.0f;
-    public float visionAngleOffset = 45;
-    public float visionDistance = 5;
+    [SerializeField] private float maxVel = 5.0f;
+    [SerializeField] private float maxAngularVel = 160.0f;
+    private readonly float visionAngleOffset = 45;
+    private readonly float visionDistance = 5;
 
     List<RaycastHit2D> rays;
 
@@ -27,26 +28,27 @@ public class BotAPI : MonoBehaviour
         adjacentVel = 0;
         angularVel = 0;
 
-        rayCaster.SetDistance(visionDistance);
+        //rayCaster.SetDistance(visionDistance);
 
         rays = rayCaster.CastRays(visionAngleOffset, body.rotation, body.position);
     }
 
-    void Update()
+    void FixedUpdate()
     {
+        // Set velocities
         body.angularVelocity = this.angularVel;
-        body.velocity = this.calculateVelComponents(this.forwardVel, this.adjacentVel);
+        body.velocity = this.calculateVelComponents(this.forwardVel, this.adjacentVel); // Calculate x and y vels
 
+        // Cast and draw rays from bot position and rotation
         rays = rayCaster.CastRays(visionAngleOffset, body.rotation, body.position);
         rayCaster.DrawRays();
 
-        print((rays[0].distance, rays[1].distance));
+        //print((rays[0].distance, rays[1].distance));  // Print returned distance
 
-
-
-        //Collider[] results = Physics.OverlapSphere(transform.position, 3.0f);
-        //Collider2D[] results = Physics2D.OverlapCircleAll(transform.position, 5.0f);
-        //print(results.Length);
+        if(Mathf.Abs(transform.position.x) > 50 || Mathf.Abs(transform.position.y) > 50)
+        {
+            agent.OutofBounds();
+        }
     }
 
     /// <summary>
@@ -66,8 +68,11 @@ public class BotAPI : MonoBehaviour
         return new Vector2(xVel, yVel);
     }
 
+    // Set forward velocity
     public void setForwardVel(float vel)
     {
+        vel *= maxVel;
+
         float sign = Mathf.Sign(vel);
         if (sign * vel > maxVel)
         {
@@ -77,8 +82,11 @@ public class BotAPI : MonoBehaviour
         this.forwardVel = vel;
     }
 
+    // Set Adjacent velocity
     public void setAdjacentVel(float vel)
     {
+        vel *= maxVel;
+
         float sign = Mathf.Sign(vel);
         if (sign * vel > maxVel)
         {
@@ -88,8 +96,11 @@ public class BotAPI : MonoBehaviour
         this.adjacentVel = vel;
     }
 
+    // Set Angular velocity
     public void setAngularVel(float vel)
     {
+        vel *= maxAngularVel;
+
         float sign = Mathf.Sign(vel);
         if (sign * vel > maxAngularVel)
         {
@@ -99,9 +110,16 @@ public class BotAPI : MonoBehaviour
         this.angularVel = vel;
     }
 
+    // Get raycast objects
     public List<RaycastHit2D> getRayCasts()
     {
         return this.rays;
+    }
+
+    // Triggers when bot collides with trigger (Wall or Goal)
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        agent.TriggerEnter(collision);
     }
 
 }
