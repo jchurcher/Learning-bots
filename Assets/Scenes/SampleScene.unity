@@ -933,7 +933,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_BrainParameters:
-    VectorObservationSize: 5
+    VectorObservationSize: 6
     NumStackedVectorObservations: 1
     m_ActionSpec:
       m_NumContinuousActions: 3
@@ -1120,6 +1120,11 @@ PrefabInstance:
       objectReference: {fileID: 1770292779}
     - target: {fileID: -4281567137103249361, guid: 6b9c9a75d6459e34db2b2536ef953850,
         type: 3}
+      propertyPath: maxVel
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: -4281567137103249361, guid: 6b9c9a75d6459e34db2b2536ef953850,
+        type: 3}
       propertyPath: m_Enabled
       value: 1
       objectReference: {fileID: 0}
@@ -1128,6 +1133,11 @@ PrefabInstance:
       propertyPath: rayCaster
       value: 
       objectReference: {fileID: 924836350}
+    - target: {fileID: -4281567137103249361, guid: 6b9c9a75d6459e34db2b2536ef953850,
+        type: 3}
+      propertyPath: maxAngularVel
+      value: 80
+      objectReference: {fileID: 0}
     - target: {fileID: -4281567137103249361, guid: 6b9c9a75d6459e34db2b2536ef953850,
         type: 3}
       propertyPath: visionDistance
