@@ -43,11 +43,6 @@ public class BotAPI : MonoBehaviour
         rayCaster.DrawRays();
 
         //print((rays[0].distance, rays[1].distance));  // Print returned distance
-
-        if(Mathf.Abs(transform.position.x) > 50 || Mathf.Abs(transform.position.y) > 50)
-        {
-            agent.OutofBounds();
-        }
     }
 
     /// <summary>
@@ -107,6 +102,35 @@ public class BotAPI : MonoBehaviour
         }
 
         this.angularVel = vel;
+    }
+
+    // Updates forward and adjacent velocities
+    public void UpdateDirectionalVel(float forwardVel, float adjacentVel)
+    {
+        forwardVel *= maxVel;
+        adjacentVel *= maxVel;
+
+        // Set vels within bounds
+        forwardVel = Mathf.Clamp(forwardVel, -maxVel, maxVel);
+        adjacentVel = Mathf.Clamp(adjacentVel, -maxVel, maxVel);
+
+        this.forwardVel = forwardVel;
+        this.adjacentVel = adjacentVel;
+
+        // Update velocities
+        body.velocity = this.calculateVelComponents(this.forwardVel, this.adjacentVel); // Calculate x and y vels
+    }
+
+    // Updates angular velocity
+    public void UpdateAngularVel(float angularVel)
+    {
+        angularVel *= maxAngularVel;
+        angularVel = Mathf.Clamp(angularVel, -maxAngularVel, maxAngularVel);
+
+        this.angularVel = angularVel;
+
+        // Update angular velocity
+        body.angularVelocity = this.angularVel;
     }
 
     // Get raycast objects
