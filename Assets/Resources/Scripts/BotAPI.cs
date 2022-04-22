@@ -14,8 +14,7 @@ public class BotAPI : MonoBehaviour
 
     [SerializeField] private float maxVel = 5.0f;
     [SerializeField] private float maxAngularVel = 160.0f;
-    private readonly float visionAngleOffset = 45;
-    private readonly float visionDistance = 5;
+    //[SerializeField] private float visionAngleOffset = 45;
 
     List<RaycastHit2D> rays;
 
@@ -30,7 +29,7 @@ public class BotAPI : MonoBehaviour
 
         //rayCaster.SetDistance(visionDistance);
 
-        rays = rayCaster.CastRays(visionAngleOffset, body.rotation, body.position);
+        rays = rayCaster.CastRays(body.rotation, body.position);
     }
 
     void FixedUpdate()
@@ -40,7 +39,7 @@ public class BotAPI : MonoBehaviour
         body.velocity = this.calculateVelComponents(this.forwardVel, this.adjacentVel); // Calculate x and y vels
 
         // Cast and draw rays from bot position and rotation
-        rays = rayCaster.CastRays(visionAngleOffset, body.rotation, body.position);
+        rays = rayCaster.CastRays(body.rotation, body.position);
         rayCaster.DrawRays();
 
         //print((rays[0].distance, rays[1].distance));  // Print returned distance
@@ -68,7 +67,7 @@ public class BotAPI : MonoBehaviour
         return new Vector2(xVel, yVel);
     }
 
-    // Set forward velocity
+    // Set forward velocity (expects -1 to 1)
     public void setForwardVel(float vel)
     {
         vel *= maxVel;
@@ -82,7 +81,7 @@ public class BotAPI : MonoBehaviour
         this.forwardVel = vel;
     }
 
-    // Set Adjacent velocity
+    // Set Adjacent velocity (expects -1 to 1)
     public void setAdjacentVel(float vel)
     {
         vel *= maxVel;
@@ -96,7 +95,7 @@ public class BotAPI : MonoBehaviour
         this.adjacentVel = vel;
     }
 
-    // Set Angular velocity
+    // Set Angular velocity (expects -1 to 1)
     public void setAngularVel(float vel)
     {
         vel *= maxAngularVel;

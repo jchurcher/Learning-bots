@@ -10,7 +10,6 @@ GameObject:
   m_Component:
   - component: {fileID: 3062807692323704262}
   - component: {fileID: -4281567137103249361}
-  - component: {fileID: 3062807692323705403}
   - component: {fileID: 3062807692323705401}
   - component: {fileID: 3062807692323705400}
   - component: {fileID: 3062807692323704263}
@@ -50,24 +49,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   body: {fileID: 0}
   rayCaster: {fileID: 0}
+  agent: {fileID: 0}
   maxVel: 5
   maxAngularVel: 160
-  visionAngleOffset: 45
-  visionDistance: 5
---- !u!114 &3062807692323705403
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3062807692323704257}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 94e56c7b4c6b0f24598d1b03ec814ba3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  runSpeed: 5
-  angleSpeed: 160
+  numberOfRays: 2
 --- !u!50 &3062807692323705401
 Rigidbody2D:
   serializedVersion: 4

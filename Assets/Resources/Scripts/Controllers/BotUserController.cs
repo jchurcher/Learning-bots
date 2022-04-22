@@ -34,6 +34,7 @@ public class BotUserController : MonoBehaviour
         body.angularVelocity = angle * angleSpeed;
 
         rotation = body.rotation;
+        print(("Rotation:", rotation));
         rotation = Mathf.Deg2Rad * (90 - rotation);     //Convert to radians
         sideways *= runSpeed;
         forward *= runSpeed;

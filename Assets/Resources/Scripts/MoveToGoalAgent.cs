@@ -20,8 +20,7 @@ public class MoveToGoalAgent : Agent
         spawner.resetSpawner();
 
         // Reset player position and rotation
-        playerObject.transform.position = Vector3.zero;
-        playerObject.transform.rotation = Quaternion.Euler(0, 0, 0);
+        playerObject.transform.SetPositionAndRotation(Vector3.zero, Quaternion.Euler(0, 0, 0));
 
         // Spawn walls and target
         GameObject target = spawner.beginSpawner();
@@ -64,13 +63,38 @@ public class MoveToGoalAgent : Agent
 
         // Get raycast distances
         List<RaycastHit2D> raycasts = botAPI.getRayCasts();
-        Vector2 rays = Vector2.zero;
+        /*Vector2 rays = Vector2.zero;
         rays[0] = raycasts[0].distance / botAPI.rayCaster.distance;
-        rays[1] = raycasts[1].distance / botAPI.rayCaster.distance;
+        rays[1] = raycasts[1].distance / botAPI.rayCaster.distance;*/
+
+        List<float> raysDists = new List<float>();
+        List<float> raysHits = new List<float>();
+
+        string sent = "";
+
+        foreach(RaycastHit2D hit in raycasts)
+        {
+            raysDists.Add(hit ? hit.distance / botAPI.rayCaster.distance : botAPI.rayCaster.distance*4);
+            raysHits.Add(hit ? 1 : 0);
+
+            sent += "(" + (hit ? hit.distance / botAPI.rayCaster.distance : 1).ToString() + "," + (bool)hit + "), ";
+
+            /*if (hit)
+            {
+                
+            }
+            else
+            {
+                rays.Add(Mathf.Infinity);
+            }*/
+        }
+
+        //print("rays: " + sent);
 
         sensor.AddObservation(distance);
         sensor.AddObservation(rotation);
-        sensor.AddObservation(rays);
+        sensor.AddObservation(raysDists);
+        sensor.AddObservation(raysHits);
     }
 
     public override void OnActionReceived(ActionBuffers actions)
@@ -79,19 +103,28 @@ public class MoveToGoalAgent : Agent
         float adjacentVel = actions.ContinuousActions[1];
         float angularVel = actions.ContinuousActions[2];
 
-        print(("Fwd, Adj, Ang: ", forwardVel, adjacentVel, angularVel));
+        string sent = "Actions: ";
+        foreach(float action in actions.ContinuousActions)
+        {
+            sent += "(" + action + "), ";
+        }
+
+        print(sent);
+
+        /*print(("Fwd, Adj, Ang: ", forwardVel, adjacentVel, angularVel));*/
 
         botAPI.setForwardVel(forwardVel);
         botAPI.setAdjacentVel(adjacentVel);
         botAPI.setAngularVel(angularVel);
     }
 
-    /*public override void Heuristic(in ActionBuffers actionsOut)
+    public override void Heuristic(in ActionBuffers actionsOut)
     {
         ActionSegment<float> continuousActions = actionsOut.ContinuousActions;
-        continuousActions[0] = Input.GetAxisRaw("Horizontal");
-        continuousActions[1] = Input.GetAxisRaw("Vertical");
-    }*/
+        continuousActions[0] = Input.GetAxisRaw("Vertical");    //Is forward pressed?
+        continuousActions[1] = Input.GetAxisRaw("Horizontal");  //Is sideways pressed?
+        continuousActions[2] = Input.GetAxisRaw("Rotate");      //Is rotation pressed?
+    }
 
     // Triggers when bot collides with trigger (Wall or Goal)
     public void TriggerEnter(Collider2D collision)

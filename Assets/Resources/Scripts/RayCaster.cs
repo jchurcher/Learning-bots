@@ -5,8 +5,23 @@ using UnityEngine;
 public class RayCaster : MonoBehaviour
 {
     RaycastHit2D hit1, hit2;
+    RaycastHit2D[] hits;
+    LineRenderer lineRenderer;
     Vector2 origin, direction1, direction2;
+    Vector2[] directions;
     public float distance = 5;
+    public int numberOfRays = 2;
+    public float offsetAngle = 45f;
+
+    private LayerMask layerMask;
+
+    public void Start()
+    {
+        lineRenderer = GetComponent<LineRenderer>();
+        lineRenderer.positionCount = numberOfRays * 2;
+
+        layerMask = LayerMask.GetMask("Wall");
+    }
 
     /// <summary>
     /// Cast two rays at an angle from a given position and rotation
@@ -15,7 +30,7 @@ public class RayCaster : MonoBehaviour
     /// <param name="rotation">Rotation of the origin in degrees</param>
     /// <param name="position">Position vector of the origin</param>
     /// <returns>ArrayList of two ray objects</returns>
-    public List<RaycastHit2D> CastRays(float offsetAngle, float rotation, Vector2 position)
+    public List<RaycastHit2D> CastTwoRays(float rotation, Vector2 position)
     {
         offsetAngle /= 2;
 
@@ -33,16 +48,46 @@ public class RayCaster : MonoBehaviour
         return list;
     }
 
+    public List<RaycastHit2D> CastRays(float rotation, Vector2 position)
+    {
+        origin = position;
+
+        float[] newAngles = Arange(numberOfRays, offsetAngle);
+        hits = new RaycastHit2D[numberOfRays];
+        directions = new Vector2[numberOfRays];
+
+        for (int i=0; i<newAngles.Length; i++)
+        {
+            directions[i] = CalcDirectionVector(rotation + newAngles[i]);
+            hits[i] = Physics2D.Raycast(position, directions[i], distance, layerMask);
+        }
+
+        List<RaycastHit2D> list = new(hits);
+
+        return list;
+    }
+
     /// <summary>
     /// Draw the two rays as lines from the origin
     /// </summary>
     public void DrawRays()
     {
-        LineRenderer lineRenderer = GetComponent<LineRenderer>();
+        for (int i = 0; i < hits.Length; i++)
+        {
+            RaycastHit2D hit = hits[i];
+            int lineIndex = (i * 2) + 1;
 
-        lineRenderer.SetPosition(1, origin);
+            lineRenderer.SetPosition(lineIndex - 1, origin);
 
-        if (hit1)
+            if (hit)
+                //Draw line to hit point
+                lineRenderer.SetPosition(lineIndex, hit.point);
+            else
+                //Draw line into empty space
+                lineRenderer.SetPosition(lineIndex, origin + directions[i] * distance);
+        }
+
+        /*if (hit1)
         {
             //Draw line to hit point
             lineRenderer.SetPosition(0, hit1.point);
@@ -64,17 +109,33 @@ public class RayCaster : MonoBehaviour
         {
             //Draw line into empty space
             lineRenderer.SetPosition(2, origin + direction2 * distance);
+        }*/
         }
+
+    // Divides a given angle across zero into a set number of equally spaced values
+    // 3, 90 = (-45, 0, -45), 4, 90 = (-45, -15, 15, 45), etc
+    private float[] Arange(int num, float angle)
+    {
+        float increment = angle / (num - 1);
+        float start = 0 - (angle / 2);
+
+        float[] points = new float[num];
+        for (int i = 0; i < num; i++)
+        {
+            points[i] = start + (increment * i);
+        }
+
+        return points;
     }
 
-    private Vector3 CalcDirectionVector(float angle)
+    private Vector2 CalcDirectionVector(float angle)
     {
         angle *= Mathf.Deg2Rad;
 
         float x = Mathf.Sin(angle) * -1;
         float y = Mathf.Cos(angle);
 
-        return new Vector3(x, y, 0);
+        return new Vector2(x, y);
     }
 
     public void SetDistance(float distance)

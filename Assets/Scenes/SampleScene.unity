@@ -528,6 +528,7 @@ LineRenderer:
   - {x: -5, y: 4, z: 1}
   - {x: 0, y: 2, z: 1}
   - {x: 5, y: 4, z: 1}
+  - {x: 0, y: 5, z: 1}
   m_Parameters:
     serializedVersion: 3
     widthMultiplier: 1
@@ -596,6 +597,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   distance: 12
+  numberOfRays: 10
+  offsetAngle: 180
 --- !u!1001 &1140343416
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -933,8 +936,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_BrainParameters:
-    VectorObservationSize: 6
-    NumStackedVectorObservations: 1
+    VectorObservationSize: 24
+    NumStackedVectorObservations: 3
     m_ActionSpec:
       m_NumContinuousActions: 3
       BranchSizes: 
@@ -991,7 +994,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1887444979}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Boundaries
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1121,7 +1124,7 @@ PrefabInstance:
     - target: {fileID: -4281567137103249361, guid: 6b9c9a75d6459e34db2b2536ef953850,
         type: 3}
       propertyPath: maxVel
-      value: 3
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: -4281567137103249361, guid: 6b9c9a75d6459e34db2b2536ef953850,
         type: 3}
@@ -1135,8 +1138,13 @@ PrefabInstance:
       objectReference: {fileID: 924836350}
     - target: {fileID: -4281567137103249361, guid: 6b9c9a75d6459e34db2b2536ef953850,
         type: 3}
+      propertyPath: numberOfRays
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: -4281567137103249361, guid: 6b9c9a75d6459e34db2b2536ef953850,
+        type: 3}
       propertyPath: maxAngularVel
-      value: 80
+      value: 160
       objectReference: {fileID: 0}
     - target: {fileID: -4281567137103249361, guid: 6b9c9a75d6459e34db2b2536ef953850,
         type: 3}
