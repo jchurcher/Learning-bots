@@ -18,7 +18,7 @@ public class BasicTurningController : MonoBehaviour
     {
         //print(BotObject);
 
-        List<RaycastHit2D> rays = BotObject.getRayCasts();
+        List<RaycastHit2D> rays = BotObject.GetRayCasts();
 
         //print(rays);
         //print(rays[0].distance);
@@ -49,8 +49,8 @@ public class BasicTurningController : MonoBehaviour
             }
         }
 
-        BotObject.setForwardVel(forward * moveVel);
-        BotObject.setAdjacentVel(sideways * moveVel);
-        BotObject.setAngularVel(angle * angVel);
+        BotObject.SetForwardVel(forward * moveVel);
+        BotObject.SetAdjacentVel(sideways * moveVel);
+        BotObject.SetAngularVel(angle * angVel);
     }
 }

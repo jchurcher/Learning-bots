@@ -22,8 +22,8 @@ public class UserController : MonoBehaviour
         float forward = Input.GetAxisRaw("Vertical");     //Is forward pressed?
         float angle = Input.GetAxisRaw("Rotate");         //Is rotation pressed?
 
-        BotObject.setForwardVel(forward * moveVel);
-        BotObject.setAdjacentVel(sideways * moveVel);
-        BotObject.setAngularVel(angle * angVel);
+        BotObject.SetForwardVel(forward * moveVel);
+        BotObject.SetAdjacentVel(sideways * moveVel);
+        BotObject.SetAngularVel(angle * angVel);
     }
 }

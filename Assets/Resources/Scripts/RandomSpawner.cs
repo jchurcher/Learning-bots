@@ -11,12 +11,14 @@ public class RandomSpawner : MonoBehaviour
     public Vector3 spawnCenter = new(0, 0, 0);
     public Vector3 spawnSize = new(100, 100, 0);
 
-    public Vector2Int shapeDims = new(4,4);
-
     public int numSpawns = 100;
-    public float radius = 2.0f;
-
     public int spawnAttempts = 100;
+    public float obstacleSpacingRadius = 2.0f;
+    public float targetSpawningRadius = 40;
+
+    private Object[] prefabs;
+    private List<Object> obstacles = new();
+    private Object targetObject = null;
 
     struct Point
     {
@@ -28,9 +30,16 @@ public class RandomSpawner : MonoBehaviour
         }
     }
 
-    public GameObject beginSpawner()
+    private void Start()
     {
-        Object[] prefabs = Resources.LoadAll("Assets/Blocks", typeof(Object));
+        prefabs = Resources.LoadAll("Assets/Blocks", typeof(Object));
+        spawnCenter += GetComponentInParent<Transform>().parent.position;
+    }
+
+    public GameObject BeginSpawner()
+    {
+        // Create new list for all obstacles
+        obstacles = new List<Object>();
 
         // Loop spawning objects
         for (int i = 0; i < numSpawns; i++)
@@ -38,7 +47,8 @@ public class RandomSpawner : MonoBehaviour
             int index = Random.Range(0, prefabs.Length);    // Pick random block shape
             Object block = prefabs[index];
 
-            spawnObstacle(block, this.radius);
+            Object obj = SpawnObstacle(block, this.obstacleSpacingRadius);
+            obstacles.Add(obj);
         }
 
         // Remove any objects withing radius of spawn center
@@ -52,24 +62,21 @@ public class RandomSpawner : MonoBehaviour
         }
 
         // Spawn target object
-        GameObject target = (GameObject)spawnTarget(Mathf.Min(spawnSize.x, spawnSize.y) * 0.4f);
+        GameObject target = (GameObject)SpawnTarget(targetSpawningRadius);
+        targetObject = target;
         return target;
     }
 
-    public void resetSpawner()
+    public void ResetSpawner()
     {
-        // Find Walls
-        GameObject[] walls = GameObject.FindGameObjectsWithTag("Wall");
+        // Destroy all obstacle objects
+        foreach(Object obj in obstacles)
+        {
+            Destroy(obj);
+        }
 
-        for (var i = 0; i < walls.Length; i++)
-            Destroy(walls[i]);
-
-
-        // Find Target
-        GameObject[] target = GameObject.FindGameObjectsWithTag("Target");
-
-        for (var i = 0; i < target.Length; i++)
-            Destroy(target[i]);
+        // Destroy target
+        Destroy(targetObject);
     }
 
     /// <summary>
@@ -77,7 +84,7 @@ public class RandomSpawner : MonoBehaviour
     /// </summary>
     /// <param name="x"></param>
     /// <param name="y"></param>
-    private void randomCoord(out float x, out float y)
+    private void RandomCoord(out float x, out float y)
     {
         x = Mathf.Round(Random.Range(spawnCenter.x - spawnSize.x / 2, spawnCenter.x + spawnSize.x / 2) / 2) * 2;
         y = Mathf.Round(Random.Range(spawnCenter.y - spawnSize.y / 2, spawnCenter.y + spawnSize.y / 2) / 2) * 2;
@@ -89,7 +96,7 @@ public class RandomSpawner : MonoBehaviour
     /// <param name="x"></param>
     /// <param name="y"></param>
     /// <param name="radius">Radius from center to find coords for</param>
-    private void randomCoordAboutCenter(out float x, out float y, float radius)
+    private void RandomCoordAboutCenter(out float x, out float y, float radius)
     {
         float angle = Random.Range(0, 360);
         x = Mathf.Round((Mathf.Sin(angle) * radius + spawnCenter.x) / 2) * 2 + 1;
@@ -101,10 +108,9 @@ public class RandomSpawner : MonoBehaviour
     /// within a given radius
     /// </summary>
     /// <param name="obj">Object to be spawned</param>
-    public void spawnObstacle(Object obj, float radius)
+    public Object SpawnObstacle(Object obj, float radius)
     {
-        float x, y;
-        randomCoord(out x, out y);
+        RandomCoord(out float x, out float y);
         Collider2D[] results;
 
         bool flag = true;
@@ -122,29 +128,28 @@ public class RandomSpawner : MonoBehaviour
                 break;
             }
 
-            randomCoord(out x, out y);  //Generate random coord
+            RandomCoord(out x, out y);  //Generate random coord
         }
 
         if (flag)   // If no free space was found, dont spawn
         {
-            return;
+            return null;
         }
 
         Vector3 location = new(x, y, 0);
         Quaternion rotation = Quaternion.Euler(new Vector3(0, 0, Random.Range(0,4) * 90));  //Random rotation
 
         Object newObject = Instantiate(obj, location, rotation);
-
+        return newObject;
     }
 
     /// <summary>
     /// Spawn target prefab within radius around spawn center
     /// </summary>
     /// <param name="spawnRadius">Distance from center to spawn the target</param>
-    public Object spawnTarget(float spawnRadius)
+    public Object SpawnTarget(float spawnRadius)
     {
-        float x, y;
-        randomCoordAboutCenter(out x, out y, spawnRadius);
+        RandomCoordAboutCenter(out float x, out float y, spawnRadius);
 
         Object targetPrefab = Resources.Load("Assets/Target");
 
@@ -168,6 +173,6 @@ public class RandomSpawner : MonoBehaviour
         Gizmos.color = new Color(1, 0, 0, 0.5f);
         Gizmos.DrawCube(spawnCenter, spawnSize);
 
-        Gizmos.DrawSphere(new Vector3(0,0,0), this.radius * 2);
+        Gizmos.DrawSphere(spawnCenter, this.obstacleSpacingRadius * 2);
     }
 }

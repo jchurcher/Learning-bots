@@ -17,14 +17,17 @@ public class MoveToGoalAgent : Agent
     public override void OnEpisodeBegin()
     {
         // Delete previous walls and target
-        spawner.resetSpawner();
+        spawner.ResetSpawner();
 
         // Reset player position and rotation
-        playerObject.transform.SetPositionAndRotation(Vector3.zero, Quaternion.Euler(0, 0, 0));
+
+        playerObject.transform.SetPositionAndRotation(playerObject.transform.parent.position, Quaternion.Euler(0, 0, 0));
 
         // Spawn walls and target
-        GameObject target = spawner.beginSpawner();
+        GameObject target = spawner.BeginSpawner();
         targetObject = target;
+
+        print("Hello");
 
         // Reset checkpoint counter
         checkpointDistance = 100;
@@ -40,7 +43,7 @@ public class MoveToGoalAgent : Agent
         Vector2 rotation = new(Mathf.Sin(r), Mathf.Cos(r));
 
         // Get raycast distances
-        List<RaycastHit2D> raycasts = botAPI.getRayCasts();
+        List<RaycastHit2D> raycasts = botAPI.GetRayCasts();
 
         List<float> raysDists = new List<float>();
         List<float> raysHits = new List<float>();
@@ -48,7 +51,7 @@ public class MoveToGoalAgent : Agent
         string sent = "";
 
         // Create list of ray distances and if they hit or not
-        foreach(RaycastHit2D hit in raycasts)
+        foreach (RaycastHit2D hit in raycasts)
         {
             raysDists.Add(hit ? hit.distance : botAPI.rayCaster.distance);
             raysHits.Add(hit ? 1 : 0);
@@ -56,7 +59,7 @@ public class MoveToGoalAgent : Agent
             sent += "(" + (hit ? hit.distance : botAPI.rayCaster.distance).ToString() + "," + (bool)hit + "), ";
         }
 
-        print("rays: " + sent);
+        //print("rays: " + sent);
 
         sensor.AddObservation(distance);
         sensor.AddObservation(rotation);
@@ -71,17 +74,20 @@ public class MoveToGoalAgent : Agent
         float adjacentVel = actions.DiscreteActions[1];
         float angularVel = actions.DiscreteActions[2];
 
-        string sent = "Actions: ";
+        /*string sent = "Actions: ";
         foreach (int action in actions.DiscreteActions)
         {
             sent += "(" + action + "), ";
         }
 
-        print(sent);
+        print(sent);*/
 
-        botAPI.setForwardVel(forwardVel - 1);
-        botAPI.setAdjacentVel(adjacentVel - 1);
-        botAPI.setAngularVel(angularVel - 1);
+        /*botAPI.SetForwardVel(forwardVel - 1);
+        botAPI.SetAdjacentVel(adjacentVel - 1);
+        botAPI.SetAngularVel(angularVel - 1);*/
+
+        botAPI.UpdateDirectionalVel(forwardVel - 1, adjacentVel - 1);
+        botAPI.UpdateAngularVel(angularVel - 1);
 
         AddReward(-0.005f);
     }
@@ -89,10 +95,10 @@ public class MoveToGoalAgent : Agent
     // For debugging, gives player control with WASD QE
     public override void Heuristic(in ActionBuffers actionsOut)
     {
-        ActionSegment<int> continuousActions = actionsOut.DiscreteActions;
-        continuousActions[0] = (int)Input.GetAxisRaw("Vertical") + 1;    //Is forward pressed?
-        continuousActions[1] = (int)Input.GetAxisRaw("Horizontal") + 1;  //Is sideways pressed?
-        continuousActions[2] = (int)Input.GetAxisRaw("Rotate") + 1;      //Is rotation pressed?
+        ActionSegment<int> actions = actionsOut.DiscreteActions;
+        actions[0] = (int)Input.GetAxisRaw("Vertical") + 1;    //Is forward pressed?
+        actions[1] = (int)Input.GetAxisRaw("Horizontal") + 1;  //Is sideways pressed?
+        actions[2] = (int)Input.GetAxisRaw("Rotate") + 1;      //Is rotation pressed?
     }
 
     // Triggers when bot collides with trigger (Wall or Goal)

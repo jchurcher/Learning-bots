@@ -86,31 +86,7 @@ public class RayCaster : MonoBehaviour
                 //Draw line into empty space
                 lineRenderer.SetPosition(lineIndex, origin + directions[i] * distance);
         }
-
-        /*if (hit1)
-        {
-            //Draw line to hit point
-            lineRenderer.SetPosition(0, hit1.point);
-            //print(hit1.distance);
-        }
-        else
-        {
-            //Draw line into empty space
-            lineRenderer.SetPosition(0, origin + direction1 * distance);
-        }
-
-        if (hit2)
-        {
-            //Draw line to hit point
-            lineRenderer.SetPosition(2, hit2.point);
-            //print(hit2.distance);
-        }
-        else
-        {
-            //Draw line into empty space
-            lineRenderer.SetPosition(2, origin + direction2 * distance);
-        }*/
-        }
+    }
 
     // Divides a given angle across zero into a set number of equally spaced values
     // 3, 90 = (-45, 0, -45), 4, 90 = (-45, -15, 15, 45), etc

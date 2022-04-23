@@ -29,20 +29,14 @@ public class BotAPI : MonoBehaviour
 
         //rayCaster.SetDistance(visionDistance);
 
-        rays = rayCaster.CastRays(body.rotation, body.position);
+        rays = rayCaster.CastRays(body.transform.localRotation.eulerAngles.z, body.transform.position);
     }
 
     void FixedUpdate()
     {
-        // Set velocities
-        body.angularVelocity = this.angularVel;
-        body.velocity = this.calculateVelComponents(this.forwardVel, this.adjacentVel); // Calculate x and y vels
-
         // Cast and draw rays from bot position and rotation
-        rays = rayCaster.CastRays(body.rotation, body.position);
+        rays = rayCaster.CastRays(body.transform.localRotation.eulerAngles.z, body.transform.position);
         rayCaster.DrawRays();
-
-        //print((rays[0].distance, rays[1].distance));  // Print returned distance
     }
 
     /// <summary>
@@ -51,7 +45,7 @@ public class BotAPI : MonoBehaviour
     /// <param name="fVel">Forward velocity, forward and back velocities</param>
     /// <param name="aVel">Adjacent velocity, side to side velocities (Strafing)</param>
     /// <returns>Absolute x and y velocities</returns>
-    private Vector2 calculateVelComponents(float fVel, float aVel)
+    private Vector2 CalculateVelComponents(float fVel, float aVel)
     {
         float rotation = body.rotation;
         rotation = Mathf.Deg2Rad * (90 - rotation);     //Convert to radians
@@ -63,7 +57,7 @@ public class BotAPI : MonoBehaviour
     }
 
     // Set forward velocity (expects -1 to 1)
-    public void setForwardVel(float vel)
+    public void SetForwardVel(float vel)
     {
         vel *= maxVel;
 
@@ -77,7 +71,7 @@ public class BotAPI : MonoBehaviour
     }
 
     // Set Adjacent velocity (expects -1 to 1)
-    public void setAdjacentVel(float vel)
+    public void SetAdjacentVel(float vel)
     {
         vel *= maxVel;
 
@@ -91,7 +85,7 @@ public class BotAPI : MonoBehaviour
     }
 
     // Set Angular velocity (expects -1 to 1)
-    public void setAngularVel(float vel)
+    public void SetAngularVel(float vel)
     {
         vel *= maxAngularVel;
 
@@ -118,7 +112,7 @@ public class BotAPI : MonoBehaviour
         this.adjacentVel = adjacentVel;
 
         // Update velocities
-        body.velocity = this.calculateVelComponents(this.forwardVel, this.adjacentVel); // Calculate x and y vels
+        body.velocity = this.CalculateVelComponents(this.forwardVel, this.adjacentVel); // Calculate x and y vels
     }
 
     // Updates angular velocity
@@ -134,7 +128,7 @@ public class BotAPI : MonoBehaviour
     }
 
     // Get raycast objects
-    public List<RaycastHit2D> getRayCasts()
+    public List<RaycastHit2D> GetRayCasts()
     {
         return this.rays;
     }
