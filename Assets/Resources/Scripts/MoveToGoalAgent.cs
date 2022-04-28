@@ -20,14 +20,14 @@ public class MoveToGoalAgent : Agent
         spawner.ResetSpawner();
 
         // Reset player position and rotation
-
         playerObject.transform.SetPositionAndRotation(playerObject.transform.parent.position, Quaternion.Euler(0, 0, 0));
 
         // Spawn walls and target
         GameObject target = spawner.BeginSpawner();
         targetObject = target;
 
-        print("Hello");
+        Grid grid = spawner.GetGrid();
+        MatrixPathfinding.ApplyAStar(grid);
 
         // Reset checkpoint counter
         checkpointDistance = 100;
@@ -63,7 +63,7 @@ public class MoveToGoalAgent : Agent
 
         sensor.AddObservation(distance);
         sensor.AddObservation(rotation);
-        sensor.AddObservation(raysDists);
+        // sensor.AddObservation(raysDists);
         //sensor.AddObservation(raysHits);
     }
 

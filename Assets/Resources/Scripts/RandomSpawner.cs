@@ -19,6 +19,7 @@ public class RandomSpawner : MonoBehaviour
     private Object[] prefabs;
     private List<Object> obstacles = new();
     private Object targetObject = null;
+    private Grid gridMap;
 
     struct Point
     {
@@ -38,6 +39,9 @@ public class RandomSpawner : MonoBehaviour
 
     public GameObject BeginSpawner()
     {
+        /*// Create Grid object for storing environment obstacle information
+         gridMap = new Grid(100, 100, new Vector2(0, 0));*/
+
         // Create new list for all obstacles
         obstacles = new List<Object>();
 
@@ -124,6 +128,7 @@ public class RandomSpawner : MonoBehaviour
             // If no overlapping break
             if (results.Length == 0)
             {
+                gridMap.SetWall(new Vector2(x, y));
                 flag = false;
                 break;
             }
@@ -151,6 +156,8 @@ public class RandomSpawner : MonoBehaviour
     {
         RandomCoordAboutCenter(out float x, out float y, spawnRadius);
 
+        //gridMap.SetEnd(new Vector2(x, y));  // Track target position
+
         Object targetPrefab = Resources.Load("Assets/Target");
 
         // Remove any objects withing radius of spawn center
@@ -166,6 +173,11 @@ public class RandomSpawner : MonoBehaviour
         //print("x: " + x.ToString() + " y: " + y.ToString());
         Object newTargetObject = Instantiate(targetPrefab, new Vector3(x, y, 0), Quaternion.identity);
         return newTargetObject;
+    }
+
+    public Grid GetGrid()
+    {
+        return gridMap;
     }
 
     private void OnDrawGizmosSelected()
