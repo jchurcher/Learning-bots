@@ -5,42 +5,35 @@ using UnityEngine;
 
 public class RandomSpawner : MonoBehaviour
 {
-    public List<GameObject> blockPrefabs;
     public MoveToGoalAgent agent;
+    public GameObject playerObject = null;
 
-    public Vector3 spawnCenter = new(0, 0, 0);
-    public Vector3 spawnSize = new(100, 100, 0);
+    public Vector2 spawnCenter = new(0, 0);
+    public Vector2 obstacleSpawnSize = new(51, 51);
+    public Vector2 playerSpawnSize = new(51, 51);
 
     public int numSpawns = 100;
     public int spawnAttempts = 100;
-    public float obstacleSpacingRadius = 2.0f;
-    public float targetSpawningRadius = 40;
+    public float obstacleSpacingRadius = 2;
+    public float targetSpawningRadius = 20;
+    //public float playerSpawnRadius = 3;
+    public bool spawnTarget = true;
 
     private Object[] prefabs;
     private List<Object> obstacles = new();
-    private Object targetObject = null;
-    private Grid gridMap;
-
-    struct Point
-    {
-        public int x, y;
-        public Point(int px, int py)
-        {
-            x = px;
-            y = py;
-        }
-    }
+    private GameObject targetObject = null;
 
     private void Start()
     {
         prefabs = Resources.LoadAll("Assets/Blocks", typeof(Object));
-        spawnCenter += GetComponentInParent<Transform>().parent.position;
+        spawnCenter += (Vector2)GetComponentInParent<Transform>().parent.position;
     }
 
     public GameObject BeginSpawner()
     {
-        /*// Create Grid object for storing environment obstacle information
-         gridMap = new Grid(100, 100, new Vector2(0, 0));*/
+        // Set player position and rotation
+        RandomCoord(out float x, out float y);
+        playerObject.transform.SetPositionAndRotation(playerObject.transform.parent.position, Quaternion.Euler(0, 0, 0));
 
         // Create new list for all obstacles
         obstacles = new List<Object>();
@@ -56,7 +49,7 @@ public class RandomSpawner : MonoBehaviour
         }
 
         // Remove any objects withing radius of spawn center
-        Collider2D[] results = Physics2D.OverlapCircleAll(new Vector2(spawnCenter.x, spawnCenter.y), 5);
+        Collider2D[] results = Physics2D.OverlapCircleAll(new Vector2(spawnCenter.x, spawnCenter.y), 3);
         foreach (Collider2D obj in results)
         {
             if (obj.CompareTag("Wall")) // Destroy any objects tagged as a wall
@@ -66,9 +59,12 @@ public class RandomSpawner : MonoBehaviour
         }
 
         // Spawn target object
-        GameObject target = (GameObject)SpawnTarget(targetSpawningRadius);
-        targetObject = target;
-        return target;
+        if (spawnTarget)
+        {
+            GameObject target = (GameObject)SpawnTarget(targetSpawningRadius);
+            targetObject = target;
+        }
+        return targetObject;
     }
 
     public void ResetSpawner()
@@ -90,8 +86,8 @@ public class RandomSpawner : MonoBehaviour
     /// <param name="y"></param>
     private void RandomCoord(out float x, out float y)
     {
-        x = Mathf.Round(Random.Range(spawnCenter.x - spawnSize.x / 2, spawnCenter.x + spawnSize.x / 2) / 2) * 2;
-        y = Mathf.Round(Random.Range(spawnCenter.y - spawnSize.y / 2, spawnCenter.y + spawnSize.y / 2) / 2) * 2;
+        x = Mathf.Round(Random.Range(spawnCenter.x - obstacleSpawnSize.x / 2, spawnCenter.x + obstacleSpawnSize.x / 2));
+        y = Mathf.Round(Random.Range(spawnCenter.y - obstacleSpawnSize.y / 2, spawnCenter.y + obstacleSpawnSize.y / 2));
     }
 
     /// <summary>
@@ -128,7 +124,6 @@ public class RandomSpawner : MonoBehaviour
             // If no overlapping break
             if (results.Length == 0)
             {
-                gridMap.SetWall(new Vector2(x, y));
                 flag = false;
                 break;
             }
@@ -156,8 +151,6 @@ public class RandomSpawner : MonoBehaviour
     {
         RandomCoordAboutCenter(out float x, out float y, spawnRadius);
 
-        //gridMap.SetEnd(new Vector2(x, y));  // Track target position
-
         Object targetPrefab = Resources.Load("Assets/Target");
 
         // Remove any objects withing radius of spawn center
@@ -175,15 +168,16 @@ public class RandomSpawner : MonoBehaviour
         return newTargetObject;
     }
 
-    public Grid GetGrid()
+    public List<Object> GetObstacles()
     {
-        return gridMap;
+        return obstacles;
     }
 
     private void OnDrawGizmosSelected()
     {
         Gizmos.color = new Color(1, 0, 0, 0.5f);
-        Gizmos.DrawCube(spawnCenter, spawnSize);
+        Gizmos.DrawCube(spawnCenter, obstacleSpawnSize);
+        Gizmos.DrawCube(spawnCenter, playerSpawnSize);
 
         Gizmos.DrawSphere(spawnCenter, this.obstacleSpacingRadius * 2);
     }

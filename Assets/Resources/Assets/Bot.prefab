@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 3062807692323704263}
   m_Layer: 0
   m_Name: Bot
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -52,7 +52,6 @@ MonoBehaviour:
   agent: {fileID: 0}
   maxVel: 5
   maxAngularVel: 160
-  numberOfRays: 2
 --- !u!50 &3062807692323705401
 Rigidbody2D:
   serializedVersion: 4

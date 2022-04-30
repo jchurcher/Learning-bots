@@ -19,18 +19,44 @@ public class MoveToGoalAgent : Agent
         // Delete previous walls and target
         spawner.ResetSpawner();
 
-        // Reset player position and rotation
-        playerObject.transform.SetPositionAndRotation(playerObject.transform.parent.position, Quaternion.Euler(0, 0, 0));
-
         // Spawn walls and target
         GameObject target = spawner.BeginSpawner();
         targetObject = target;
 
-        Grid grid = spawner.GetGrid();
-        MatrixPathfinding.ApplyAStar(grid);
-
         // Reset checkpoint counter
         checkpointDistance = 100;
+
+        // The A* algorithm
+        // Create a new grid
+        Grid newGrid = new Grid((int)spawner.obstacleSpawnSize.x, (int)spawner.obstacleSpawnSize.y);
+        MatrixPathfinding.PopulateGrid(ref newGrid);
+        newGrid.SetNodeValueAtCoord(playerObject.transform.position, ObjectStates.Start);
+
+        // Delete prev path
+        GameObject[] objs = GameObject.FindGameObjectsWithTag("Respawn");
+        foreach(GameObject obj in objs)
+        {
+            Destroy(obj);
+        }
+
+        // Apply A*
+        List<Node> pathNodes = MatrixPathfinding.ApplyAStar(newGrid);
+        List<Vector2> path = MatrixPathfinding.GetNodeCoordinates(pathNodes, newGrid);
+
+        /*foreach (Node node in pathNodes)
+        {
+            Vector2 pos = node.GetCoord();
+            pos = newGrid.Index2Coord(pos);
+
+            Object pathObject = Resources.Load("Assets/Path", typeof(Object));
+            Instantiate(pathObject, new Vector3(pos.x, pos.y, 2), Quaternion.identity);
+        }*/
+
+        foreach (Vector2 pos in path)
+        {
+            Object pathObject = Resources.Load("Assets/Path", typeof(Object));
+            Instantiate(pathObject, new Vector3(pos.x, pos.y, 2), Quaternion.identity);
+        }
     }
 
     public override void CollectObservations(VectorSensor sensor)
@@ -109,7 +135,7 @@ public class MoveToGoalAgent : Agent
             AddReward(+1f);
             EndEpisode();
         }
-        if (collision.gameObject.CompareTag("Wall"))
+        if (collision.gameObject.CompareTag("Wall") || collision.gameObject.CompareTag("Boundary"))
         {
             AddReward(-0.05f);
             EndEpisode();
