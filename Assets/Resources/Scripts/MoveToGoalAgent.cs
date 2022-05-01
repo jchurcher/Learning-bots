@@ -13,6 +13,9 @@ public class MoveToGoalAgent : Agent
     public BotAPI botAPI;
     
     private float checkpointDistance = 100;
+    private List<Vector2> path;
+
+    private bool wallCollisionFlag = false;
 
     public override void OnEpisodeBegin()
     {
@@ -41,7 +44,7 @@ public class MoveToGoalAgent : Agent
 
         // Apply A*
         List<Node> pathNodes = MatrixPathfinding.ApplyAStar(newGrid);
-        List<Vector2> path = MatrixPathfinding.GetNodeCoordinates(pathNodes, newGrid);
+        path = MatrixPathfinding.GetNodeCoordinates(pathNodes, newGrid);
 
         /*foreach (Node node in pathNodes)
         {
@@ -89,7 +92,7 @@ public class MoveToGoalAgent : Agent
 
         sensor.AddObservation(distance);
         sensor.AddObservation(rotation);
-        // sensor.AddObservation(raysDists);
+        sensor.AddObservation(raysDists);
         //sensor.AddObservation(raysHits);
     }
 
@@ -100,22 +103,56 @@ public class MoveToGoalAgent : Agent
         float adjacentVel = actions.DiscreteActions[1];
         float angularVel = actions.DiscreteActions[2];
 
-        /*string sent = "Actions: ";
-        foreach (int action in actions.DiscreteActions)
-        {
-            sent += "(" + action + "), ";
-        }
-
-        print(sent);*/
-
-        /*botAPI.SetForwardVel(forwardVel - 1);
-        botAPI.SetAdjacentVel(adjacentVel - 1);
-        botAPI.SetAngularVel(angularVel - 1);*/
-
+        // Update bot speeds
         botAPI.UpdateDirectionalVel(forwardVel - 1, adjacentVel - 1);
         botAPI.UpdateAngularVel(angularVel - 1);
 
+        // Punish agent slowly for taking a long time
         AddReward(-0.005f);
+
+        // Punish if touching wall      --- Only punish once then move away 0.3 or more to be punished again
+        if (wallCollisionFlag)
+        {
+            Collider2D coll = Physics2D.OverlapCircle(playerObject.transform.position, 0.5f, LayerMask.GetMask("Wall"));
+            if (coll)
+            {
+                if (coll.gameObject.CompareTag("Wall"))
+                {
+                    wallCollisionFlag = false;
+                    AddReward(-0.08f);
+                }
+            }
+        }
+        else
+        {
+            Collider2D coll = Physics2D.OverlapCircle(playerObject.transform.position, 0.8f, LayerMask.GetMask("Wall"));
+            if (!coll)
+            {
+                wallCollisionFlag = true;
+            }
+        }
+
+        /*// Reward based on distance from path
+        Vector2 playerPos = botAPI.transform.localPosition;
+        Vector2 closestPos;
+        float closestDistance = Mathf.Infinity;
+
+        foreach (Vector2 pos in path)
+        {
+            float newDist = Vector2.Distance(playerPos, pos);
+            if (newDist < closestDistance)
+            {
+                closestPos = pos;
+                closestDistance = newDist;
+            }
+        }
+        
+        if (closestDistance <= 1)
+        {
+            AddReward(){
+
+            }
+        }*/
     }
 
     // For debugging, gives player control with WASD QE

@@ -10,7 +10,7 @@ public class RandomSpawner : MonoBehaviour
 
     public Vector2 spawnCenter = new(0, 0);
     public Vector2 obstacleSpawnSize = new(51, 51);
-    public Vector2 playerSpawnSize = new(51, 51);
+    public Vector2 playerSpawnSize = new(30, 30);
 
     public int numSpawns = 100;
     public int spawnAttempts = 100;
@@ -32,8 +32,8 @@ public class RandomSpawner : MonoBehaviour
     public GameObject BeginSpawner()
     {
         // Set player position and rotation
-        RandomCoord(out float x, out float y);
-        playerObject.transform.SetPositionAndRotation(playerObject.transform.parent.position, Quaternion.Euler(0, 0, 0));
+        RandomCoordWithinSpawn(out float x, out float y, playerSpawnSize);
+        playerObject.transform.SetPositionAndRotation(new Vector2(x, y), Quaternion.Euler(0, 0, 0));
 
         // Create new list for all obstacles
         obstacles = new List<Object>();
@@ -49,7 +49,7 @@ public class RandomSpawner : MonoBehaviour
         }
 
         // Remove any objects withing radius of spawn center
-        Collider2D[] results = Physics2D.OverlapCircleAll(new Vector2(spawnCenter.x, spawnCenter.y), 3);
+        Collider2D[] results = Physics2D.OverlapCircleAll(playerObject.transform.position, 3);
         foreach (Collider2D obj in results)
         {
             if (obj.CompareTag("Wall")) // Destroy any objects tagged as a wall
@@ -84,10 +84,10 @@ public class RandomSpawner : MonoBehaviour
     /// </summary>
     /// <param name="x"></param>
     /// <param name="y"></param>
-    private void RandomCoord(out float x, out float y)
+    private void RandomCoordWithinSpawn(out float x, out float y, Vector2 size)
     {
-        x = Mathf.Round(Random.Range(spawnCenter.x - obstacleSpawnSize.x / 2, spawnCenter.x + obstacleSpawnSize.x / 2));
-        y = Mathf.Round(Random.Range(spawnCenter.y - obstacleSpawnSize.y / 2, spawnCenter.y + obstacleSpawnSize.y / 2));
+        x = Mathf.Round(Random.Range(spawnCenter.x - size.x / 2, spawnCenter.x + size.x / 2));
+        y = Mathf.Round(Random.Range(spawnCenter.y - size.y / 2, spawnCenter.y + size.y / 2));
     }
 
     /// <summary>
@@ -110,7 +110,7 @@ public class RandomSpawner : MonoBehaviour
     /// <param name="obj">Object to be spawned</param>
     public Object SpawnObstacle(Object obj, float radius)
     {
-        RandomCoord(out float x, out float y);
+        RandomCoordWithinSpawn(out float x, out float y, obstacleSpawnSize);
         Collider2D[] results;
 
         bool flag = true;
@@ -128,7 +128,7 @@ public class RandomSpawner : MonoBehaviour
                 break;
             }
 
-            RandomCoord(out x, out y);  //Generate random coord
+            RandomCoordWithinSpawn(out x, out y, obstacleSpawnSize);  //Generate random coord
         }
 
         if (flag)   // If no free space was found, dont spawn

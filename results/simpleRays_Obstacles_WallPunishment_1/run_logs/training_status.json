@@ -1,0 +1,47 @@
+{
+    "MoveToGoal": {
+        "checkpoints": [
+            {
+                "steps": 499891,
+                "file_path": "results\\simpleRays_Obstacles_WallPunishment_1\\MoveToGoal\\MoveToGoal-499891.onnx",
+                "reward": -11.024999141693115,
+                "creation_time": 1651365167.7103157,
+                "auxillary_file_paths": [
+                    "results\\simpleRays_Obstacles_WallPunishment_1\\MoveToGoal\\MoveToGoal-499891.pt"
+                ]
+            },
+            {
+                "steps": 999952,
+                "file_path": "results\\simpleRays_Obstacles_WallPunishment_1\\MoveToGoal\\MoveToGoal-999952.onnx",
+                "reward": -0.9845830450455347,
+                "creation_time": 1651372723.621451,
+                "auxillary_file_paths": [
+                    "results\\simpleRays_Obstacles_WallPunishment_1\\MoveToGoal\\MoveToGoal-999952.pt"
+                ]
+            },
+            {
+                "steps": 1000001,
+                "file_path": "results\\simpleRays_Obstacles_WallPunishment_1\\MoveToGoal\\MoveToGoal-1000001.onnx",
+                "reward": -1.026153550698207,
+                "creation_time": 1651372723.76249,
+                "auxillary_file_paths": [
+                    "results\\simpleRays_Obstacles_WallPunishment_1\\MoveToGoal\\MoveToGoal-1000001.pt"
+                ]
+            }
+        ],
+        "final_checkpoint": {
+            "steps": 1000001,
+            "file_path": "results\\simpleRays_Obstacles_WallPunishment_1\\MoveToGoal.onnx",
+            "reward": -1.026153550698207,
+            "creation_time": 1651372723.76249,
+            "auxillary_file_paths": [
+                "results\\simpleRays_Obstacles_WallPunishment_1\\MoveToGoal\\MoveToGoal-1000001.pt"
+            ]
+        }
+    },
+    "metadata": {
+        "stats_format_version": "0.3.0",
+        "mlagents_version": "0.29.0",
+        "torch_version": "1.11.0+cpu"
+    }
+}

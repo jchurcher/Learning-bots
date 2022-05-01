@@ -132,10 +132,10 @@ public class MatrixPathfinding : MonoBehaviour
         {
             path.Add(currentNode);
             currentNode = currentNode.parent;
-            print(currentNode);
+            //print(currentNode);
         }
 
-        print("closed: " + closedList.Count + ", open: " + openList.Count);
+        //print("closed: " + closedList.Count + ", open: " + openList.Count);
         return path;
     }
 
@@ -193,7 +193,7 @@ public class MatrixPathfinding : MonoBehaviour
             }
         }
 
-        print("Grid Created");
+        /*print("Grid Created");
         string sent = "[";
         for(int i=0; i<grid.width; i++)
         {
@@ -211,7 +211,7 @@ public class MatrixPathfinding : MonoBehaviour
             sent += "],";
         }
         sent += "]";
-        print(sent);
+        print(sent);*/
     }
 
     public static List<Vector2> GetNodeCoordinates(List<Node> nodes, in Grid grid)

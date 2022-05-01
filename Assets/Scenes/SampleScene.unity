@@ -223,6 +223,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   myPos: {x: 0, y: 0, z: 0}
   bot: {fileID: 0}
+--- !u!1 &1125382040 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2639130240520397202, guid: 8cdaf76f5ccd089428d96d8587fe6691,
+    type: 3}
+  m_PrefabInstance: {fileID: 2639130242082819688}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1288314405
 GameObject:
   m_ObjectHideFlags: 0
@@ -314,6 +320,21 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2639130240212160922, guid: 8cdaf76f5ccd089428d96d8587fe6691,
+        type: 3}
+      propertyPath: m_TagString
+      value: Boundary
+      objectReference: {fileID: 0}
+    - target: {fileID: 2639130240597805123, guid: 8cdaf76f5ccd089428d96d8587fe6691,
+        type: 3}
+      propertyPath: MaxStep
+      value: 2000
+      objectReference: {fileID: 0}
+    - target: {fileID: 2639130240597805124, guid: 8cdaf76f5ccd089428d96d8587fe6691,
+        type: 3}
+      propertyPath: m_BrainParameters.VectorObservationSize
+      value: 14
+      objectReference: {fileID: 0}
     - target: {fileID: 2639130241293463446, guid: 8cdaf76f5ccd089428d96d8587fe6691,
         type: 3}
       propertyPath: numberOfRays
@@ -382,17 +403,62 @@ PrefabInstance:
     - target: {fileID: 2639130241811423402, guid: 8cdaf76f5ccd089428d96d8587fe6691,
         type: 3}
       propertyPath: numSpawns
-      value: 30
+      value: 50
+      objectReference: {fileID: 0}
+    - target: {fileID: 2639130241811423402, guid: 8cdaf76f5ccd089428d96d8587fe6691,
+        type: 3}
+      propertyPath: playerObject
+      value: 
+      objectReference: {fileID: 1125382040}
+    - target: {fileID: 2639130241811423402, guid: 8cdaf76f5ccd089428d96d8587fe6691,
+        type: 3}
+      propertyPath: playerSpawnSize.x
+      value: 48
+      objectReference: {fileID: 0}
+    - target: {fileID: 2639130241811423402, guid: 8cdaf76f5ccd089428d96d8587fe6691,
+        type: 3}
+      propertyPath: playerSpawnSize.y
+      value: 48
+      objectReference: {fileID: 0}
+    - target: {fileID: 2639130241811423402, guid: 8cdaf76f5ccd089428d96d8587fe6691,
+        type: 3}
+      propertyPath: obstacleSpawnSize.x
+      value: 51
+      objectReference: {fileID: 0}
+    - target: {fileID: 2639130241811423402, guid: 8cdaf76f5ccd089428d96d8587fe6691,
+        type: 3}
+      propertyPath: obstacleSpawnSize.y
+      value: 51
       objectReference: {fileID: 0}
     - target: {fileID: 2639130241811423402, guid: 8cdaf76f5ccd089428d96d8587fe6691,
         type: 3}
       propertyPath: targetSpawningRadius
-      value: 22
+      value: 16
       objectReference: {fileID: 0}
     - target: {fileID: 5383355136393735292, guid: 8cdaf76f5ccd089428d96d8587fe6691,
         type: 3}
       propertyPath: maxVel
       value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 6219087581637685234, guid: 8cdaf76f5ccd089428d96d8587fe6691,
+        type: 3}
+      propertyPath: m_TagString
+      value: Boundary
+      objectReference: {fileID: 0}
+    - target: {fileID: 6219087582672241087, guid: 8cdaf76f5ccd089428d96d8587fe6691,
+        type: 3}
+      propertyPath: m_TagString
+      value: Boundary
+      objectReference: {fileID: 0}
+    - target: {fileID: 6219087582871983046, guid: 8cdaf76f5ccd089428d96d8587fe6691,
+        type: 3}
+      propertyPath: m_TagString
+      value: Boundary
+      objectReference: {fileID: 0}
+    - target: {fileID: 6219087583183546779, guid: 8cdaf76f5ccd089428d96d8587fe6691,
+        type: 3}
+      propertyPath: m_TagString
+      value: Boundary
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8cdaf76f5ccd089428d96d8587fe6691, type: 3}
