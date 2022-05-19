@@ -11,11 +11,23 @@ public class MoveToGoalAgent : Agent
     public GameObject targetObject;
     public RandomSpawner spawner;
     public BotAPI botAPI;
-    
+
     private float checkpointDistance = 100;
     private List<Vector2> path;
+    private Object pathObject;
 
     private bool wallCollisionFlag = false;
+    private int wallCollisionCount = 0;
+
+    [SerializeField] private float targetReward = +1f;
+    [SerializeField] private float collisionReward = -0.06f;
+    [SerializeField] private float timeReward = -0.005f;
+    [SerializeField] private float checkpointReward = +0.02f;
+
+    public void Start()
+    {
+        pathObject = Resources.Load("Assets/Path", typeof(Object));
+    }
 
     public override void OnEpisodeBegin()
     {
@@ -27,7 +39,7 @@ public class MoveToGoalAgent : Agent
         targetObject = target;
 
         // Reset checkpoint counter
-        checkpointDistance = 100;
+        checkpointDistance = Vector2.Distance(playerObject.transform.position, targetObject.transform.position);
 
         // The A* algorithm
         // Create a new grid
@@ -57,9 +69,10 @@ public class MoveToGoalAgent : Agent
 
         foreach (Vector2 pos in path)
         {
-            Object pathObject = Resources.Load("Assets/Path", typeof(Object));
             Instantiate(pathObject, new Vector3(pos.x, pos.y, 2), Quaternion.identity);
         }
+
+        wallCollisionCount = 0;
     }
 
     public override void CollectObservations(VectorSensor sensor)
@@ -99,16 +112,24 @@ public class MoveToGoalAgent : Agent
     // Runs when action recieved back from AI network
     public override void OnActionReceived(ActionBuffers actions)
     {
+        // Includes adjacent velocity
         float forwardVel = actions.DiscreteActions[0];
         float adjacentVel = actions.DiscreteActions[1];
         float angularVel = actions.DiscreteActions[2];
+
+        // Excludes adjacent velocity
+        /*float forwardVel = actions.DiscreteActions[0];
+        float adjacentVel = 1;
+        float angularVel = actions.DiscreteActions[1];*/
 
         // Update bot speeds
         botAPI.UpdateDirectionalVel(forwardVel - 1, adjacentVel - 1);
         botAPI.UpdateAngularVel(angularVel - 1);
 
+        // ------------ Punishments ------------
+
         // Punish agent slowly for taking a long time
-        AddReward(-0.005f);
+        AddReward(timeReward);
 
         // Punish if touching wall      --- Only punish once then move away 0.3 or more to be punished again
         if (wallCollisionFlag)
@@ -116,21 +137,31 @@ public class MoveToGoalAgent : Agent
             Collider2D coll = Physics2D.OverlapCircle(playerObject.transform.position, 0.5f, LayerMask.GetMask("Wall"));
             if (coll)
             {
-                if (coll.gameObject.CompareTag("Wall"))
-                {
-                    wallCollisionFlag = false;
-                    AddReward(-0.08f);
-                }
+                wallCollisionFlag = false;
+                wallCollisionCount += 1;
+                AddReward(collisionReward);
             }
         }
         else
         {
-            Collider2D coll = Physics2D.OverlapCircle(playerObject.transform.position, 0.8f, LayerMask.GetMask("Wall"));
+            Collider2D coll = Physics2D.OverlapCircle(playerObject.transform.position, 0.7f, LayerMask.GetMask("Wall"));
             if (!coll)
             {
                 wallCollisionFlag = true;
             }
         }
+
+        print("Wall collision count: " + wallCollisionCount);
+
+        // Reward based on checkpoint distance
+        float currentDistance = Vector2.Distance(playerObject.transform.position, targetObject.transform.position);
+        if (checkpointDistance > currentDistance + 5)
+        {
+            checkpointDistance = currentDistance;
+            AddReward(checkpointReward);
+        }
+
+        print(("Checkpoint dist: ", checkpointDistance, currentDistance));
 
         /*// Reward based on distance from path
         Vector2 playerPos = botAPI.transform.localPosition;
@@ -146,7 +177,7 @@ public class MoveToGoalAgent : Agent
                 closestDistance = newDist;
             }
         }
-        
+
         if (closestDistance <= 1)
         {
             AddReward(){
@@ -159,9 +190,15 @@ public class MoveToGoalAgent : Agent
     public override void Heuristic(in ActionBuffers actionsOut)
     {
         ActionSegment<int> actions = actionsOut.DiscreteActions;
-        actions[0] = (int)Input.GetAxisRaw("Vertical") + 1;    //Is forward pressed?
+
+        // Include adjacent
+        /*actions[0] = (int)Input.GetAxisRaw("Vertical") + 1;    //Is forward pressed?
         actions[1] = (int)Input.GetAxisRaw("Horizontal") + 1;  //Is sideways pressed?
-        actions[2] = (int)Input.GetAxisRaw("Rotate") + 1;      //Is rotation pressed?
+        actions[2] = (int)Input.GetAxisRaw("Rotate") + 1;      //Is rotation pressed?*/
+
+        // Exclude adjacent;
+        actions[0] = (int)Input.GetAxisRaw("Vertical") + 1;    //Is forward pressed?
+        actions[1] = (int)Input.GetAxisRaw("Rotate") + 1;      //Is rotation pressed?
     }
 
     // Triggers when bot collides with trigger (Wall or Goal)
@@ -169,14 +206,14 @@ public class MoveToGoalAgent : Agent
     {
         if (collision.gameObject.CompareTag("Target"))
         {
-            AddReward(+1f);
+            AddReward(targetReward);
             EndEpisode();
         }
-        if (collision.gameObject.CompareTag("Wall") || collision.gameObject.CompareTag("Boundary"))
+        /*if (collision.gameObject.CompareTag("Wall") || collision.gameObject.CompareTag("Boundary"))
         {
             AddReward(-0.05f);
             EndEpisode();
-        }
+        }*/
     }
 
     // Set the player object to move to

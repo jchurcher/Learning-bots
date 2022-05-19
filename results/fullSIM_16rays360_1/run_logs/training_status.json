@@ -1,0 +1,47 @@
+{
+    "MoveToGoal": {
+        "checkpoints": [
+            {
+                "steps": 499891,
+                "file_path": "results\\fullSIM_16rays360_1\\MoveToGoal\\MoveToGoal-499891.onnx",
+                "reward": -6.5532136133738925,
+                "creation_time": 1651450068.6283202,
+                "auxillary_file_paths": [
+                    "results\\fullSIM_16rays360_1\\MoveToGoal\\MoveToGoal-499891.pt"
+                ]
+            },
+            {
+                "steps": 999982,
+                "file_path": "results\\fullSIM_16rays360_1\\MoveToGoal\\MoveToGoal-999982.onnx",
+                "reward": -2.3705257789084784,
+                "creation_time": 1651457551.3985195,
+                "auxillary_file_paths": [
+                    "results\\fullSIM_16rays360_1\\MoveToGoal\\MoveToGoal-999982.pt"
+                ]
+            },
+            {
+                "steps": 1000063,
+                "file_path": "results\\fullSIM_16rays360_1\\MoveToGoal\\MoveToGoal-1000063.onnx",
+                "reward": -2.41099943369627,
+                "creation_time": 1651457551.5450325,
+                "auxillary_file_paths": [
+                    "results\\fullSIM_16rays360_1\\MoveToGoal\\MoveToGoal-1000063.pt"
+                ]
+            }
+        ],
+        "final_checkpoint": {
+            "steps": 1000063,
+            "file_path": "results\\fullSIM_16rays360_1\\MoveToGoal.onnx",
+            "reward": -2.41099943369627,
+            "creation_time": 1651457551.5450325,
+            "auxillary_file_paths": [
+                "results\\fullSIM_16rays360_1\\MoveToGoal\\MoveToGoal-1000063.pt"
+            ]
+        }
+    },
+    "metadata": {
+        "stats_format_version": "0.3.0",
+        "mlagents_version": "0.29.0",
+        "torch_version": "1.11.0+cpu"
+    }
+}

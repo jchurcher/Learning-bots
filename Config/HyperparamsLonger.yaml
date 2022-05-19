@@ -9,6 +9,6 @@ behaviors:
       hidden_units: 256
       num_layers: 2
       normalize: false
-    max_steps: 10e5
+    max_steps: 20e5
     time_horizon: 128
     summary_freq: 20000

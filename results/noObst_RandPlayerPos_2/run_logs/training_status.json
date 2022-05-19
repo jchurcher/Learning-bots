@@ -1,0 +1,65 @@
+{
+    "MoveToGoal": {
+        "checkpoints": [
+            {
+                "steps": 499977,
+                "file_path": "results\\noObst_RandPlayerPos_2\\MoveToGoal\\MoveToGoal-499977.onnx",
+                "reward": -1.9176917328284337,
+                "creation_time": 1652550211.834658,
+                "auxillary_file_paths": [
+                    "results\\noObst_RandPlayerPos_2\\MoveToGoal\\MoveToGoal-499977.pt"
+                ]
+            },
+            {
+                "steps": 667390,
+                "file_path": "results\\noObst_RandPlayerPos_2\\MoveToGoal\\MoveToGoal-667390.onnx",
+                "reward": -2.3791661775774426,
+                "creation_time": 1652552875.0793192,
+                "auxillary_file_paths": [
+                    "results\\noObst_RandPlayerPos_2\\MoveToGoal\\MoveToGoal-667390.pt"
+                ]
+            },
+            {
+                "steps": 683240,
+                "file_path": "results\\noObst_RandPlayerPos_2\\MoveToGoal\\MoveToGoal-683240.onnx",
+                "reward": -2.1524996161460876,
+                "creation_time": 1652554839.6303053,
+                "auxillary_file_paths": [
+                    "results\\noObst_RandPlayerPos_2\\MoveToGoal\\MoveToGoal-683240.pt"
+                ]
+            },
+            {
+                "steps": 999943,
+                "file_path": "results\\noObst_RandPlayerPos_2\\MoveToGoal\\MoveToGoal-999943.onnx",
+                "reward": -2.788599503040314,
+                "creation_time": 1652560433.348502,
+                "auxillary_file_paths": [
+                    "results\\noObst_RandPlayerPos_2\\MoveToGoal\\MoveToGoal-999943.pt"
+                ]
+            },
+            {
+                "steps": 1016636,
+                "file_path": "results\\noObst_RandPlayerPos_2\\MoveToGoal\\MoveToGoal-1016636.onnx",
+                "reward": -2.3724068800608316,
+                "creation_time": 1652560841.4210057,
+                "auxillary_file_paths": [
+                    "results\\noObst_RandPlayerPos_2\\MoveToGoal\\MoveToGoal-1016636.pt"
+                ]
+            }
+        ],
+        "final_checkpoint": {
+            "steps": 1016636,
+            "file_path": "results\\noObst_RandPlayerPos_2\\MoveToGoal.onnx",
+            "reward": -2.3724068800608316,
+            "creation_time": 1652560841.4210057,
+            "auxillary_file_paths": [
+                "results\\noObst_RandPlayerPos_2\\MoveToGoal\\MoveToGoal-1016636.pt"
+            ]
+        }
+    },
+    "metadata": {
+        "stats_format_version": "0.3.0",
+        "mlagents_version": "0.29.0",
+        "torch_version": "1.11.0+cpu"
+    }
+}

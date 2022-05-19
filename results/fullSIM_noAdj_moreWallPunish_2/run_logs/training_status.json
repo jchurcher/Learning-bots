@@ -1,0 +1,65 @@
+{
+    "metadata": {
+        "stats_format_version": "0.3.0",
+        "mlagents_version": "0.29.0",
+        "torch_version": "1.11.0+cpu"
+    },
+    "MoveToGoal": {
+        "checkpoints": [
+            {
+                "steps": 499971,
+                "file_path": "results\\fullSIM_noAdj_moreWallPunish_2\\MoveToGoal\\MoveToGoal-499971.onnx",
+                "reward": -9.557499378919601,
+                "creation_time": 1651882735.4557598,
+                "auxillary_file_paths": [
+                    "results\\fullSIM_noAdj_moreWallPunish_2\\MoveToGoal\\MoveToGoal-499971.pt"
+                ]
+            },
+            {
+                "steps": 709111,
+                "file_path": "results\\fullSIM_noAdj_moreWallPunish_2\\MoveToGoal\\MoveToGoal-709111.onnx",
+                "reward": -5.09533281326294,
+                "creation_time": 1651885948.7849717,
+                "auxillary_file_paths": [
+                    "results\\fullSIM_noAdj_moreWallPunish_2\\MoveToGoal\\MoveToGoal-709111.pt"
+                ]
+            },
+            {
+                "steps": 952078,
+                "file_path": "results\\fullSIM_noAdj_moreWallPunish_2\\MoveToGoal\\MoveToGoal-952078.onnx",
+                "reward": -3.8149994611740112,
+                "creation_time": 1651890502.310217,
+                "auxillary_file_paths": [
+                    "results\\fullSIM_noAdj_moreWallPunish_2\\MoveToGoal\\MoveToGoal-952078.pt"
+                ]
+            },
+            {
+                "steps": 999952,
+                "file_path": "results\\fullSIM_noAdj_moreWallPunish_2\\MoveToGoal\\MoveToGoal-999952.onnx",
+                "reward": -4.069499537348747,
+                "creation_time": 1651931788.2097905,
+                "auxillary_file_paths": [
+                    "results\\fullSIM_noAdj_moreWallPunish_2\\MoveToGoal\\MoveToGoal-999952.pt"
+                ]
+            },
+            {
+                "steps": 1000038,
+                "file_path": "results\\fullSIM_noAdj_moreWallPunish_2\\MoveToGoal\\MoveToGoal-1000038.onnx",
+                "reward": -4.044999573911939,
+                "creation_time": 1651931788.3144495,
+                "auxillary_file_paths": [
+                    "results\\fullSIM_noAdj_moreWallPunish_2\\MoveToGoal\\MoveToGoal-1000038.pt"
+                ]
+            }
+        ],
+        "final_checkpoint": {
+            "steps": 1000038,
+            "file_path": "results\\fullSIM_noAdj_moreWallPunish_2\\MoveToGoal.onnx",
+            "reward": -4.044999573911939,
+            "creation_time": 1651931788.3144495,
+            "auxillary_file_paths": [
+                "results\\fullSIM_noAdj_moreWallPunish_2\\MoveToGoal\\MoveToGoal-1000038.pt"
+            ]
+        }
+    }
+}

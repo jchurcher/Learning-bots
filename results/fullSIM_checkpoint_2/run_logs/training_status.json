@@ -1,0 +1,47 @@
+{
+    "MoveToGoal": {
+        "checkpoints": [
+            {
+                "steps": 119590,
+                "file_path": "results\\fullSIM_checkpoint_2\\MoveToGoal\\MoveToGoal-119590.onnx",
+                "reward": null,
+                "creation_time": 1652645096.2944055,
+                "auxillary_file_paths": [
+                    "results\\fullSIM_checkpoint_2\\MoveToGoal\\MoveToGoal-119590.pt"
+                ]
+            },
+            {
+                "steps": 237333,
+                "file_path": "results\\fullSIM_checkpoint_2\\MoveToGoal\\MoveToGoal-237333.onnx",
+                "reward": -14.754998683929443,
+                "creation_time": 1652647635.1303914,
+                "auxillary_file_paths": [
+                    "results\\fullSIM_checkpoint_2\\MoveToGoal\\MoveToGoal-237333.pt"
+                ]
+            },
+            {
+                "steps": 257997,
+                "file_path": "results\\fullSIM_checkpoint_2\\MoveToGoal\\MoveToGoal-257997.onnx",
+                "reward": -14.768332401911417,
+                "creation_time": 1652651758.380786,
+                "auxillary_file_paths": [
+                    "results\\fullSIM_checkpoint_2\\MoveToGoal\\MoveToGoal-257997.pt"
+                ]
+            }
+        ],
+        "final_checkpoint": {
+            "steps": 257997,
+            "file_path": "results\\fullSIM_checkpoint_2\\MoveToGoal.onnx",
+            "reward": -14.768332401911417,
+            "creation_time": 1652651758.380786,
+            "auxillary_file_paths": [
+                "results\\fullSIM_checkpoint_2\\MoveToGoal\\MoveToGoal-257997.pt"
+            ]
+        }
+    },
+    "metadata": {
+        "stats_format_version": "0.3.0",
+        "mlagents_version": "0.29.0",
+        "torch_version": "1.11.0+cpu"
+    }
+}
