@@ -112,15 +112,27 @@ public class MoveToGoalAgent : Agent
     // Runs when action recieved back from AI network
     public override void OnActionReceived(ActionBuffers actions)
     {
-        // Includes adjacent velocity
-        float forwardVel = actions.DiscreteActions[0];
-        float adjacentVel = actions.DiscreteActions[1];
-        float angularVel = actions.DiscreteActions[2];
+        float forwardVel, adjacentVel, angularVel;
 
-        // Excludes adjacent velocity
-        /*float forwardVel = actions.DiscreteActions[0];
-        float adjacentVel = 1;
-        float angularVel = actions.DiscreteActions[1];*/
+        if (actions.DiscreteActions.Length == 3)
+        {
+            // Includes adjacent velocity
+            forwardVel = actions.DiscreteActions[0];
+            adjacentVel = actions.DiscreteActions[1];
+            angularVel = actions.DiscreteActions[2];
+        }
+        else if(actions.DiscreteActions.Length == 2)
+        {
+            // Excludes adjacent velocity
+            forwardVel = actions.DiscreteActions[0];
+            adjacentVel = 1;
+            angularVel = actions.DiscreteActions[1];
+        }
+        else
+        {
+            // Invalid number of actions
+            throw new System.Exception("Invalid number of actions");
+        }
 
         // Update bot speeds
         botAPI.UpdateDirectionalVel(forwardVel - 1, adjacentVel - 1);
@@ -191,14 +203,24 @@ public class MoveToGoalAgent : Agent
     {
         ActionSegment<int> actions = actionsOut.DiscreteActions;
 
-        // Include adjacent
-        /*actions[0] = (int)Input.GetAxisRaw("Vertical") + 1;    //Is forward pressed?
-        actions[1] = (int)Input.GetAxisRaw("Horizontal") + 1;  //Is sideways pressed?
-        actions[2] = (int)Input.GetAxisRaw("Rotate") + 1;      //Is rotation pressed?*/
-
-        // Exclude adjacent;
-        actions[0] = (int)Input.GetAxisRaw("Vertical") + 1;    //Is forward pressed?
-        actions[1] = (int)Input.GetAxisRaw("Rotate") + 1;      //Is rotation pressed?
+        if (actions.Length == 3)
+        {
+            // Include adjacent
+            actions[0] = (int)Input.GetAxisRaw("Vertical") + 1;    //Is forward pressed?
+            actions[1] = (int)Input.GetAxisRaw("Horizontal") + 1;  //Is sideways pressed?
+            actions[2] = (int)Input.GetAxisRaw("Rotate") + 1;      //Is rotation pressed?
+        }
+        else if (actions.Length == 2)
+        {
+            // Exclude adjacent;
+            actions[0] = (int)Input.GetAxisRaw("Vertical") + 1;    //Is forward pressed?
+            actions[1] = (int)Input.GetAxisRaw("Rotate") + 1;      //Is rotation pressed?
+        }
+        else
+        {
+            // Invalid number of actions
+            throw new System.Exception("Invalid number of actions");
+        }
     }
 
     // Triggers when bot collides with trigger (Wall or Goal)

@@ -348,14 +348,13 @@ PrefabInstance:
     - target: {fileID: 2639130240597805123, guid: 8cdaf76f5ccd089428d96d8587fe6691,
         type: 3}
       propertyPath: checkpointReward
-      value: 0.4
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 2639130240597805124, guid: 8cdaf76f5ccd089428d96d8587fe6691,
         type: 3}
       propertyPath: m_Model
       value: 
-      objectReference: {fileID: 5022602860645237092, guid: 832b2b66777e4d0488935caf7f6544ba,
-        type: 3}
+      objectReference: {fileID: 0}
     - target: {fileID: 2639130240597805124, guid: 8cdaf76f5ccd089428d96d8587fe6691,
         type: 3}
       propertyPath: m_BehaviorType
@@ -575,6 +574,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_BrainParameters.m_ActionSpec.BranchSizes.Array.data[22]
       value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 2639130240597805125, guid: 8cdaf76f5ccd089428d96d8587fe6691,
+        type: 3}
+      propertyPath: DecisionPeriod
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 2639130241293463446, guid: 8cdaf76f5ccd089428d96d8587fe6691,
         type: 3}
