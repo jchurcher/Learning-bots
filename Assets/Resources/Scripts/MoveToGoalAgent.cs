@@ -17,7 +17,7 @@ public class MoveToGoalAgent : Agent
     private Object pathObject;
 
     private bool wallCollisionFlag = false;
-    private int wallCollisionCount = 0;
+    public int wallCollisionCount = 0;
 
     [SerializeField] private float targetReward = +1f;
     [SerializeField] private float collisionReward = -0.06f;
@@ -74,6 +74,7 @@ public class MoveToGoalAgent : Agent
             Instantiate(pathObject, new Vector3(pos.x, pos.y, 2), Quaternion.identity);
         }
 
+        // Reset wall collision count
         wallCollisionCount = 0;
     }
 
