@@ -27,15 +27,33 @@
                 "auxillary_file_paths": [
                     "results\\fullSIM_checkpoint_incRewards_2\\MoveToGoal\\MoveToGoal-701923.pt"
                 ]
+            },
+            {
+                "steps": 940384,
+                "file_path": "results\\fullSIM_checkpoint_incRewards_2\\MoveToGoal\\MoveToGoal-940384.onnx",
+                "reward": -2.010000387827555,
+                "creation_time": 1653257345.0803747,
+                "auxillary_file_paths": [
+                    "results\\fullSIM_checkpoint_incRewards_2\\MoveToGoal\\MoveToGoal-940384.pt"
+                ]
+            },
+            {
+                "steps": 999982,
+                "file_path": "results\\fullSIM_checkpoint_incRewards_2\\MoveToGoal\\MoveToGoal-999982.onnx",
+                "reward": -7.227500796318054,
+                "creation_time": 1653258135.8598194,
+                "auxillary_file_paths": [
+                    "results\\fullSIM_checkpoint_incRewards_2\\MoveToGoal\\MoveToGoal-999982.pt"
+                ]
             }
         ],
         "final_checkpoint": {
-            "steps": 701923,
+            "steps": 940384,
             "file_path": "results\\fullSIM_checkpoint_incRewards_2\\MoveToGoal.onnx",
-            "reward": -5.255000591278076,
-            "creation_time": 1653253778.5531938,
+            "reward": -2.010000387827555,
+            "creation_time": 1653257345.0803747,
             "auxillary_file_paths": [
-                "results\\fullSIM_checkpoint_incRewards_2\\MoveToGoal\\MoveToGoal-701923.pt"
+                "results\\fullSIM_checkpoint_incRewards_2\\MoveToGoal\\MoveToGoal-940384.pt"
             ]
         }
     },

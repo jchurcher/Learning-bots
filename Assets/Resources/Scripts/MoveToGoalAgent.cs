@@ -24,6 +24,8 @@ public class MoveToGoalAgent : Agent
     [SerializeField] private float timeReward = -0.005f;
     [SerializeField] private float checkpointReward = +0.02f;
 
+    [SerializeField] private bool checkpointing = true;
+
     public void Start()
     {
         pathObject = Resources.Load("Assets/Path", typeof(Object));
@@ -166,14 +168,17 @@ public class MoveToGoalAgent : Agent
         print("Wall collision count: " + wallCollisionCount);
 
         // Reward based on checkpoint distance
-        float currentDistance = Vector2.Distance(playerObject.transform.position, targetObject.transform.position);
-        if (checkpointDistance > currentDistance + 5)
+        if (checkpointing)
         {
-            checkpointDistance = currentDistance;
-            AddReward(checkpointReward);
-        }
+            float currentDistance = Vector2.Distance(playerObject.transform.position, targetObject.transform.position);
+            if (checkpointDistance > currentDistance + 5)
+            {
+                checkpointDistance = currentDistance;
+                AddReward(checkpointReward);
+            }
 
-        print(("Checkpoint dist: ", checkpointDistance, currentDistance));
+            print(("Checkpoint dist: ", checkpointDistance, currentDistance));
+        }
 
         /*// Reward based on distance from path
         Vector2 playerPos = botAPI.transform.localPosition;
