@@ -1,0 +1,65 @@
+{
+    "MoveToGoal": {
+        "checkpoints": [
+            {
+                "steps": 499989,
+                "file_path": "results\\noObst_2Action_Checkpoints_incRewards_1\\MoveToGoal\\MoveToGoal-499989.onnx",
+                "reward": -1.9150004386901855,
+                "creation_time": 1653362822.271462,
+                "auxillary_file_paths": [
+                    "results\\noObst_2Action_Checkpoints_incRewards_1\\MoveToGoal\\MoveToGoal-499989.pt"
+                ]
+            },
+            {
+                "steps": 874167,
+                "file_path": "results\\noObst_2Action_Checkpoints_incRewards_1\\MoveToGoal\\MoveToGoal-874167.onnx",
+                "reward": 2.4568181254646997,
+                "creation_time": 1653369400.6117094,
+                "auxillary_file_paths": [
+                    "results\\noObst_2Action_Checkpoints_incRewards_1\\MoveToGoal\\MoveToGoal-874167.pt"
+                ]
+            },
+            {
+                "steps": 994116,
+                "file_path": "results\\noObst_2Action_Checkpoints_incRewards_1\\MoveToGoal\\MoveToGoal-994116.onnx",
+                "reward": 1.8430554270744324,
+                "creation_time": 1653371524.8621826,
+                "auxillary_file_paths": [
+                    "results\\noObst_2Action_Checkpoints_incRewards_1\\MoveToGoal\\MoveToGoal-994116.pt"
+                ]
+            },
+            {
+                "steps": 999913,
+                "file_path": "results\\noObst_2Action_Checkpoints_incRewards_1\\MoveToGoal\\MoveToGoal-999913.onnx",
+                "reward": 3.0591176327537086,
+                "creation_time": 1653372645.953675,
+                "auxillary_file_paths": [
+                    "results\\noObst_2Action_Checkpoints_incRewards_1\\MoveToGoal\\MoveToGoal-999913.pt"
+                ]
+            },
+            {
+                "steps": 1012305,
+                "file_path": "results\\noObst_2Action_Checkpoints_incRewards_1\\MoveToGoal\\MoveToGoal-1012305.onnx",
+                "reward": 2.8516666253407794,
+                "creation_time": 1653372824.8261857,
+                "auxillary_file_paths": [
+                    "results\\noObst_2Action_Checkpoints_incRewards_1\\MoveToGoal\\MoveToGoal-1012305.pt"
+                ]
+            }
+        ],
+        "final_checkpoint": {
+            "steps": 1012305,
+            "file_path": "results\\noObst_2Action_Checkpoints_incRewards_1\\MoveToGoal.onnx",
+            "reward": 2.8516666253407794,
+            "creation_time": 1653372824.8261857,
+            "auxillary_file_paths": [
+                "results\\noObst_2Action_Checkpoints_incRewards_1\\MoveToGoal\\MoveToGoal-1012305.pt"
+            ]
+        }
+    },
+    "metadata": {
+        "stats_format_version": "0.3.0",
+        "mlagents_version": "0.28.0",
+        "torch_version": "1.11.0+cpu"
+    }
+}
