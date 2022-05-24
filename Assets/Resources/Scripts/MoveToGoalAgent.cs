@@ -18,6 +18,7 @@ public class MoveToGoalAgent : Agent
 
     private bool wallCollisionFlag = false;
     public int wallCollisionCount = 0;
+    public int decisonCount = 0;
 
     [SerializeField] private float targetReward = +1f;
     [SerializeField] private float collisionReward = -0.06f;
@@ -25,14 +26,26 @@ public class MoveToGoalAgent : Agent
     [SerializeField] private float checkpointReward = +0.02f;
 
     [SerializeField] private bool checkpointing = true;
+    [SerializeField] private bool recordResults = true;
+
+    private DataWriter writer;
+    [SerializeField] private string runId;
 
     public void Start()
     {
         pathObject = Resources.Load("Assets/Path", typeof(Object));
+        writer = new DataWriter(runId);
+        print(writer);
     }
 
     public override void OnEpisodeBegin()
     {
+        // Write testing results to csv file
+        if (recordResults)
+        {
+            writer.write(wallCollisionCount, decisonCount);
+        }
+
         // Delete previous walls and target
         spawner.ResetSpawner();
 
@@ -76,6 +89,9 @@ public class MoveToGoalAgent : Agent
 
         // Reset wall collision count
         wallCollisionCount = 0;
+
+        // Reset decision count
+        decisonCount = 0;
     }
 
     public override void CollectObservations(VectorSensor sensor)
@@ -110,6 +126,9 @@ public class MoveToGoalAgent : Agent
         sensor.AddObservation(rotation);
         sensor.AddObservation(raysDists);
         //sensor.AddObservation(raysHits);
+
+        // Increment decision counter
+        decisonCount++;
     }
 
     // Runs when action recieved back from AI network

@@ -1,0 +1,29 @@
+{
+    "MoveToGoal": {
+        "checkpoints": [
+            {
+                "steps": 15924,
+                "file_path": "results\\Testing_fullSIM_checkpoint_incRewards_2.1\\MoveToGoal\\MoveToGoal-15924.onnx",
+                "reward": 2.154642782041005,
+                "creation_time": 1653329754.5402696,
+                "auxillary_file_paths": [
+                    "results\\Testing_fullSIM_checkpoint_incRewards_2.1\\MoveToGoal\\MoveToGoal-15924.pt"
+                ]
+            }
+        ],
+        "final_checkpoint": {
+            "steps": 15924,
+            "file_path": "results\\Testing_fullSIM_checkpoint_incRewards_2.1\\MoveToGoal.onnx",
+            "reward": 2.154642782041005,
+            "creation_time": 1653329754.5402696,
+            "auxillary_file_paths": [
+                "results\\Testing_fullSIM_checkpoint_incRewards_2.1\\MoveToGoal\\MoveToGoal-15924.pt"
+            ]
+        }
+    },
+    "metadata": {
+        "stats_format_version": "0.3.0",
+        "mlagents_version": "0.29.0",
+        "torch_version": "1.11.0+cpu"
+    }
+}
